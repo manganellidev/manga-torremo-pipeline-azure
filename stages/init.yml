@@ -5,11 +5,11 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
-      - job: Download_Cache_Torremo_Library
+      - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
         steps:
           - task: Bash@3
-            name: "fetchLatestReleaseTag"
+            name: "fetch_latest_release_tag"
             displayName: "Fetch Latest Release Tag"
             env:
               GITHUB_TOKEN: $(GH_TOKEN)
