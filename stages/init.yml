@@ -5,7 +5,7 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
-      - job: Init
+      - job: Download_Cache_Torremo_Library
         displayName: "Download and Cache Torremo Library Binary"
         steps:
           - task: Bash@3
