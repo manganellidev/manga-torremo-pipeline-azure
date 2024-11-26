@@ -22,8 +22,10 @@ parameters:
 stages:
   - stage: release_ring_0
     displayName: 🚀 Release ${{ parameters.targetRegion }} Environment
+    dependsOn: ["init"]
     condition: |
       and(
+        eq(dependencies.init.result, 'Succeeded'),
         eq('${{ parameters.skipStage }}', 'false'),
         ne('${{ parameters.targetRegion }}', ''),
         ne('${{ parameters.teamIdentifier }}', ''),

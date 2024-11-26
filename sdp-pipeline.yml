@@ -46,6 +46,7 @@ parameters:
     default: 0
 
 stages:
+  - template: /stages/init.yml
   # Ring 0
   - template: /stages/release-ring-0.yml
     parameters:
