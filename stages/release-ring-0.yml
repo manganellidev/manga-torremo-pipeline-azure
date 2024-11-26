@@ -38,6 +38,8 @@ stages:
       vmImage: "ubuntu-latest"
     jobs:
       - job: Cache_Torremo_library
+        variables:
+          LATEST_VERSION: $[ dependencies.Init.outputs['fetchLatestReleaseTag.LATEST_VERSION'] ]
         steps:
           - task: Cache@2
             displayName: "Cache Torremo Library"
@@ -46,6 +48,7 @@ stages:
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
       - job: Gitops_Deploy
+        dependsOn: Cache_Torremo_library
         steps:
           - task: Bash@3
             inputs:
