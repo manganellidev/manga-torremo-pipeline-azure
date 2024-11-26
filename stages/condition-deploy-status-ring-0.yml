@@ -26,6 +26,11 @@ stages:
               key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
+          - task: torremo-beta@1.0.41
+            displayName: validateDeploy
+            inputs:
+              stepName: "validateDeploy"
+
       - job: Argo_Application_Health_Check
         steps:
           - bash: |
