@@ -33,15 +33,22 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
+      - job: Cache_Torremo_library
+        steps:
+          - task: Cache@2
+            displayName: "Cache Torremo Library"
+            inputs:
+              key: '"torremo" | "$(Agent.OS)" | "$(LATEST_VERSION)"'
+              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
+
       - job: Argo_Application_Health_Check
         steps:
-          - checkout: self
           - bash: |
               echo "Calling Argo Application Health Check"
             displayName: "Argo Application Health Check"
+
       - job: Dynatrace_Synthetic_Monitor_Smoke_Test
         steps:
-          - checkout: self
           - bash: |
               echo "Calling Dynatrace Synthetic Monitor Smoke Test ..."
             displayName: "Dynatrace Synthetic Monitor Smoke Test"

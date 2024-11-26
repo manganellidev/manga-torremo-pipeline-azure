@@ -37,12 +37,27 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
+      - job: Cache_Torremo_library
+        steps:
+          - task: Cache@2
+            displayName: "Cache Torremo Library"
+            inputs:
+              key: '"torremo" | "$(Agent.OS)" | "$(LATEST_VERSION)"'
+              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
+
       - job: Gitops_Deploy
         steps:
-          - checkout: self
+          - task: Bash@3
+            inputs:
+              targetType: "inline"
+              script: |
+                echo "Listing contents of tmp directory:"
+                ls -la $(TORREMO_LIB_CACHE_FOLDER)/
+
           - bash: |
               echo "Calling Set Config File ..."
             displayName: "Set Config File"
+
           - bash: |
               echo "Calling Deploy ..."
             displayName: "Deploy"
