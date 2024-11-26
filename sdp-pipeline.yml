@@ -8,9 +8,6 @@ parameters:
   - name: artifactVersion
     type: string
     default: ""
-  - name: ghRepoUri
-    type: string
-    default: ""
   - name: skipRing0ReleaseStage
     type: boolean
     default: false
@@ -58,18 +55,10 @@ stages:
   - template: /stages/release-ring-0.yml
     parameters:
       skipStage: ${{ parameters.skipRing0ReleaseStage }}
-      teamIdentifier: ${{ parameters.teamIdentifier }}
-      appName: ${{ parameters.appName }}
-      artifactVersion: ${{ parameters.artifactVersion }}
-      targetRegion: ${{ parameters.targetRegionRing0 }}
-      ghRepoUri: ${{ parameters.ghRepoUri }}
+      targetRegion: ${{ parameters.targetRegionRing0
   - template: /stages/condition-deploy-status-ring-0.yml
     parameters:
-      teamIdentifier: ${{ parameters.teamIdentifier }}
-      appName: ${{ parameters.appName }}
-      artifactVersion: ${{ parameters.artifactVersion }}
-      targetRegion: ${{ parameters.targetRegionRing0 }}
-      ghRepoUri: ${{ parameters.ghRepoUri }}
+      targetRegion: ${{ parameters.targetRegionRing0 }
   # # Ring 1
   # - template: /stages/bake-time-ring-1.yml
   #   parameters:
@@ -78,18 +67,10 @@ stages:
   #     targetRegion: ${{ parameters.targetRegionRing1 }}
   # - template: /stages/release-ring-1.yml
   #   parameters:
-  #     teamIdentifier: ${{ parameters.teamIdentifier }}
-  #     appName: ${{ parameters.appName }}
-  #     artifactVersion: ${{ parameters.artifactVersion }}
   #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  #     ghRepoUri: ${{ parameters.ghRepoUri }}
   # - template: /stages/condition-deploy-status-ring-1.yml
   #   parameters:
-  #     teamIdentifier: ${{ parameters.teamIdentifier }}
-  #     appName: ${{ parameters.appName }}
-  #     artifactVersion: ${{ parameters.artifactVersion }}
   #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  #     ghRepoUri: ${{ parameters.ghRepoUri }}
   # # Ring 2
   # - template: /stages/bake-time-ring-2.yml
   #   parameters:
@@ -98,18 +79,10 @@ stages:
   #     targetRegion: ${{ parameters.targetRegionRing2 }}
   # - template: /stages/release-ring-2.yml
   #   parameters:
-  #     teamIdentifier: ${{ parameters.teamIdentifier }}
-  #     appName: ${{ parameters.appName }}
-  #     artifactVersion: ${{ parameters.artifactVersion }}
   #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  #     ghRepoUri: ${{ parameters.ghRepoUri }}
   # - template: /stages/condition-deploy-status-ring-2.yml
   #   parameters:
-  #     teamIdentifier: ${{ parameters.teamIdentifier }}
-  #     appName: ${{ parameters.appName }}
-  #     artifactVersion: ${{ parameters.artifactVersion }}
   #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  #     ghRepoUri: ${{ parameters.ghRepoUri }}
   # # Ring 3
   # - template: /stages/bake-time-ring-3.yml
   #   parameters:
@@ -118,15 +91,7 @@ stages:
   #     targetRegion: ${{ parameters.targetRegionRing3 }}
   # - template: /stages/release-ring-3.yml
   #   parameters:
-  #     teamIdentifier: ${{ parameters.teamIdentifier }}
-  #     appName: ${{ parameters.appName }}
-  #     artifactVersion: ${{ parameters.artifactVersion }}
   #     targetRegion: ${{ parameters.targetRegionRing3 }}
-  #     ghRepoUri: ${{ parameters.ghRepoUri }}
   # - template: /stages/condition-deploy-status-ring-3.yml
   #   parameters:
-  #     teamIdentifier: ${{ parameters.teamIdentifier }}
-  #     appName: ${{ parameters.appName }}
-  #     artifactVersion: ${{ parameters.artifactVersion }}
   #     targetRegion: ${{ parameters.targetRegionRing3 }}
-  #     ghRepoUri: ${{ parameters.ghRepoUri }}
