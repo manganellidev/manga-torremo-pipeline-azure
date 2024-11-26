@@ -1,0 +1,39 @@
+parameters:
+  - name: skipStage
+    type: boolean
+    default: false
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: bakeTimeInMinutes
+    type: number
+    default: 0
+
+stages:
+  - stage: bake_time_release_ring_2
+    displayName: 🍰 Bake Time ${{ parameters.targetRegion }}
+    dependsOn: ["condition_deploy_status_ring_1"]
+    condition: |
+      and(
+        eq(dependencies.release_ring_1.result, 'Succeeded'),
+        ne('${{ parameters.targetRegion }}', ''),
+        eq('${{ parameters.skipStage }}', 'false')
+      )
+    pool: server
+    jobs:
+      - job: bake_time
+        timeoutInMinutes: 10080
+        displayName: Waiting for SDP bake time
+        steps:
+          - ${{ if eq(parameters.bakeTimeInMinutes, 0) }}:
+              - task: ManualValidation@0
+                timeoutInMinutes: 1
+                inputs:
+                  instructions: "Shall we skip the bake time and resume?"
+                  onTimeout: "resume"
+          - ${{ if ne(parameters.bakeTimeInMinutes, 0) }}:
+              - task: ManualValidation@0
+                timeoutInMinutes: ${{ parameters.bakeTimeInMinutes }}
+                inputs:
+                  instructions: "Shall we skip the bake time and resume?"
+                  onTimeout: "resume"
