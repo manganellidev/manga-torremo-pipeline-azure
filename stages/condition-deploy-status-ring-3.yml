@@ -1,33 +1,16 @@
-# release-integration.yml
 parameters:
-  - name: teamIdentifier
-    type: string
-    default: ""
-  - name: appName
-    type: string
-    default: ""
   - name: targetRegion
-    type: string
-    default: ""
-  - name: artifactVersion
-    type: string
-    default: ""
-  - name: ghRepoUri
     type: string
     default: ""
 
 stages:
   - stage: condition_deploy_status_ring_3
     displayName: 🩺 Condition Deploy Status for ${{ parameters.targetRegion }}
-    dependsOn: ["release_ring_3"]
+    dependsOn: ["init", "release_ring_3"]
     condition: |
       and(
         eq(dependencies.release_ring_3.result, 'Succeeded'),
-        ne('${{ parameters.targetRegion }}', ''),
-        ne('${{ parameters.teamIdentifier }}', ''),
-        ne('${{ parameters.appName }}', ''),
-        ne('${{ parameters.artifactVersion }}', ''),
-        ne('${{ parameters.ghRepoUri }}', '')
+        ne('${{ parameters.targetRegion }}', '')
       )
     pool:
       name: "Azure Pipelines"

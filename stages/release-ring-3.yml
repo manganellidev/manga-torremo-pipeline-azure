@@ -1,18 +1,5 @@
-# release-integration.yml
 parameters:
-  - name: teamIdentifier
-    type: string
-    default: ""
-  - name: appName
-    type: string
-    default: ""
   - name: targetRegion
-    type: string
-    default: ""
-  - name: artifactVersion
-    type: string
-    default: ""
-  - name: ghRepoUri
     type: string
     default: ""
   - name: skipStage
@@ -22,16 +9,12 @@ parameters:
 stages:
   - stage: release_ring_3
     displayName: 🚀 Release ${{ parameters.targetRegion }}
-    dependsOn: ["bake_time_release_ring_3"]
+    dependsOn: ["init", "bake_time_release_ring_3"]
     condition: |
       and(
         eq(dependencies.release_ring_2.result, 'Succeeded'),
         eq('${{ parameters.skipStage }}', 'false'),
-        ne('${{ parameters.targetRegion }}', ''),
-        ne('${{ parameters.teamIdentifier }}', ''),
-        ne('${{ parameters.appName }}', ''),
-        ne('${{ parameters.artifactVersion }}', ''),
-        ne('${{ parameters.ghRepoUri }}', '')
+        ne('${{ parameters.targetRegion }}', '')
       )
     pool:
       name: "Azure Pipelines"
