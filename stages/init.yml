@@ -1,0 +1,64 @@
+stages:
+  - stage: init
+    displayName: ⚙️ Initializing
+    pool:
+      name: "Azure Pipelines"
+      vmImage: "ubuntu-latest"
+    jobs:
+      - job: Init
+        displayName: "Download and Cache Torremo Library Binary"
+        steps:
+          - task: Bash@3
+            name: "fetchLatestReleaseTag"
+            displayName: "Fetch Latest Release Tag"
+            env:
+              GITHUB_TOKEN: $(GH_TOKEN)
+            inputs:
+              targetType: "inline"
+              script: |
+                echo "Logging in to GitHub"
+                gh auth login --hostname github.tools.sap --with-token <<< "$GITHUB_TOKEN"
+
+                echo "Fetching the latest release tag"
+                LATEST_VERSION=$(gh release list --repo concur-sap-ecosystem/sdp-go-library --limit 1 --json tagName -q ".[0].tagName")
+
+                if [ -z "$LATEST_VERSION" ]; then
+                  echo "Error: Unable to fetch the latest release tag."
+                  exit 1
+                fi
+
+                echo "Latest release tag is $LATEST_VERSION"
+                # Export for use within the same job
+                echo "##vso[task.setvariable variable=LATEST_VERSION]$LATEST_VERSION"
+                # Export for use in other jobs
+                echo "##vso[task.setvariable variable=LATEST_VERSION;isOutput=true]$LATEST_VERSION"
+
+          - task: Cache@2
+            inputs:
+              key: '"torremo" | "$(Agent.OS)" | "$(LATEST_VERSION)"'
+              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
+
+          - task: Bash@3
+            displayName: "Download Latest Release from GitHub"
+            env:
+              GITHUB_TOKEN: $(GH_TOKEN)
+            inputs:
+              targetType: "inline"
+              script: |
+                echo "Logging in to GitHub"
+                gh auth login --hostname github.tools.sap --with-token <<< "$GITHUB_TOKEN"
+
+                echo "Downloading release $LATEST_VERSION from GitHub"
+                gh release download "$LATEST_VERSION" \
+                  --repo concur-sap-ecosystem/sdp-go-library \
+                  --dir "$(TORREMO_LIB_CACHE_FOLDER)" \
+                  --clobber
+
+                echo "Download complete. Files saved to $(TORREMO_LIB_CACHE_FOLDER)"
+
+          - task: Bash@3
+            inputs:
+              targetType: "inline"
+              script: |
+                echo "Listing contents of the default temp directory:"
+                ls -la "$(TORREMO_LIB_CACHE_FOLDER)/"
