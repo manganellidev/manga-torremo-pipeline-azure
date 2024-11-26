@@ -39,7 +39,7 @@ stages:
     jobs:
       - job: Cache_Torremo_library
         variables:
-          LATEST_VERSION: $[ dependencies.Init.outputs['fetchLatestReleaseTag.LATEST_VERSION'] ]
+          LATEST_VERSION: $[ dependencies.Init.outputs['Init.fetchLatestReleaseTag.LATEST_VERSION'] ]
         steps:
           - task: Cache@2
             displayName: "Cache Torremo Library"
