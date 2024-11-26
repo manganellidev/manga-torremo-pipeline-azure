@@ -45,7 +45,7 @@ stages:
             displayName: setParamsToFile
             inputs:
               stepName: "setParamsToFile"
-              flags: "--appName rocket --artifactVersion 1.3.44  --teamIdentifier northstar"
+              flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
 
           - bash: |
               echo "Calling Deploy ..."

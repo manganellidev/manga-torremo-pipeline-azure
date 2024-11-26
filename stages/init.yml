@@ -25,7 +25,6 @@ stages:
       - job: export_sdp_params
         displayName: "Export SDP Parameters"
         steps:
-          - checkout: self
           - task: Bash@3
             name: "export_sdp_params"
             displayName: "Export SDP Params"
