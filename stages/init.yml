@@ -1,10 +1,41 @@
+parameters:
+  - name: teamIdentifier
+    type: string
+    default: ""
+  - name: appName
+    type: string
+    default: ""
+  - name: artifactVersion
+    type: string
+    default: ""
+
 stages:
   - stage: init
     displayName: ⚙️ Initializing
+    condition: |
+      and(
+        ne('${{ parameters.teamIdentifier }}', ''),
+        ne('${{ parameters.appName }}', ''),
+        ne('${{ parameters.artifactVersion }}', '')
+      )
     pool:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
+      - job: export_sdp_params
+        displayName: "Export SDP Parameters"
+        steps:
+          - checkout: self
+          - task: Bash@3
+            name: "export_sdp_params"
+            displayName: "Export SDP Params"
+            inputs:
+              targetType: "inline"
+              script: |
+                echo "##vso[task.setvariable variable=TEAM_IDENTIFIER;isOutput=true]${{ parameters.teamIdentifier }}"
+                echo "##vso[task.setvariable variable=APP_NAME;isOutput=true]${{ parameters.appName }}"
+                echo "##vso[task.setvariable variable=ARTIFACT_VERSION;isOutput=true]${{ parameters.artifactVersion }}"
+
       - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
         steps:

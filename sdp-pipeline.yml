@@ -50,6 +50,10 @@ variables:
 
 stages:
   - template: /stages/init.yml
+    parameters:
+      teamIdentifier: ${{ parameters.teamIdentifier }}
+      appName: ${{ parameters.appName }}
+      artifactVersion: ${{ parameters.artifactVersion }}
   # Ring 0
   - template: /stages/release-ring-0.yml
     parameters:
