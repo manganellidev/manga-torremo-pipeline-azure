@@ -55,10 +55,10 @@ stages:
   - template: /stages/release-ring-0.yml
     parameters:
       skipStage: ${{ parameters.skipRing0ReleaseStage }}
-      targetRegion: ${{ parameters.targetRegionRing0
+      targetRegion: ${{ parameters.targetRegionRing0 }}
   - template: /stages/condition-deploy-status-ring-0.yml
     parameters:
-      targetRegion: ${{ parameters.targetRegionRing0 }
+      targetRegion: ${{ parameters.targetRegionRing0 }}
   # # Ring 1
   # - template: /stages/bake-time-ring-1.yml
   #   parameters:
