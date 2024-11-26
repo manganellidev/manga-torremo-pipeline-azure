@@ -40,7 +40,7 @@ stages:
           - task: Cache@2
             displayName: "Cache Torremo Library"
             inputs:
-              key: '"torremo" | "$(Agent.OS)" | "$(LATEST_VERSION)"'
+              key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
       - job: Argo_Application_Health_Check
