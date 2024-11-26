@@ -45,6 +45,9 @@ parameters:
     type: number
     default: 0
 
+variables:
+  TORREMO_LIB_CACHE_FOLDER: $(Pipeline.Workspace)/s/torremo-lib-cache
+
 stages:
   - template: /stages/init.yml
   # Ring 0
