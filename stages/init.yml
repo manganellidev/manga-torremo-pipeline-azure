@@ -23,17 +23,8 @@ stages:
             inputs:
               targetType: "inline"
               script: |
-                echo "Validating ADO Secrets"
-                echo "${GH_TOKEN}"
-                echo "${GH_USER}"
-
-                if [ -z "$GH_USER" ] || [ "$GH_USER" = "\$(GH_USER)" ]; then
-                  echo "GH_USER is not defined or is using the placeholder value"
-                  exit 1
-                fi
-
                 if [ -z "$GH_TOKEN" ] || [ "$GH_TOKEN" = "\$(GH_TOKEN)" ]; then
-                  echo "GH_TOKEN is not defined or is using the placeholder value"
+                  echo "GH_TOKEN is not defined or is the default value. Please set the GH_TOKEN variable in the pipeline."
                   exit 1
                 fi
 
