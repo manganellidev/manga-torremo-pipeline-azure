@@ -44,3 +44,4 @@ stages:
                 --artifactVersion $(ARTIFACT_VERSION)
                 --targetRegion ${{ parameters.targetRegion }}
                 --githubToken $(GH_TOKEN)
+                --githubUrl $(GH_URL)

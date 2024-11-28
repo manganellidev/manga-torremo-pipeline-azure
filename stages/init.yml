@@ -23,9 +23,6 @@ stages:
             inputs:
               targetType: "inline"
               script: |
-                echo "Validating pipeline variables"
-                echo "$GH_URL is the GitHub URL" 
-
                 if [ -z "$GH_TOKEN" ] || [ "$GH_TOKEN" = "\$(GH_TOKEN)" ]; then
                   echo "GH_TOKEN is not defined or is the default value. Please set the GH_TOKEN variable in the pipeline."
                   exit 1
