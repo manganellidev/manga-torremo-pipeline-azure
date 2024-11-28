@@ -23,6 +23,10 @@ stages:
             inputs:
               targetType: "inline"
               script: |
+                echo "Validating ADO Secrets"
+                echo "${GH_TOKEN}"
+                echo "${GH_USER}"
+
                 if [ -z "${GH_TOKEN+x}" ]; then
                   echo "GH_TOKEN is missing"
                   exit 1
