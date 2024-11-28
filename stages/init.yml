@@ -14,9 +14,9 @@ stages:
     displayName: ⚙️ Initializing
     condition: |
       and(
-        ne('${{ parameters.teamIdentifier }}', ''),
-        ne('${{ parameters.appName }}', ''),
-        ne('${{ parameters.artifactVersion }}', '')
+        ne(variables['TEAM_IDENTIFIER'], ''),
+        ne(variables['APP_NAME'], ''),
+        ne(variables['ARTIFACT_VERSION'], '')
       )
     pool:
       name: "Azure Pipelines"
