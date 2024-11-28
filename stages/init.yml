@@ -16,8 +16,7 @@ stages:
       and(
         ne('${{ parameters.teamIdentifier }}', ''),
         ne('${{ parameters.appName }}', ''),
-        ne('${{ parameters.artifactVersion }}', ''),
-        ne(variables['GH_TOKEN'], '')
+        ne('${{ parameters.artifactVersion }}', '')
       )
     pool:
       name: "Azure Pipelines"
