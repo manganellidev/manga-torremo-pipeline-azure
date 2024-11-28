@@ -23,12 +23,12 @@ stages:
             inputs:
               targetType: "inline"
               script: |
-                if [ -z "$GH_TOKEN" ]; then
+                if [ -z "${GH_TOKEN+x}" ]; then
                   echo "GH_TOKEN is missing"
                   exit 1
                 fi
 
-                if [ -z "$GH_USER" ]; then
+                if [ -z "${GH_USER+x}" ]; then
                   echo "GH_USER is missing"
                   exit 1
                 fi
