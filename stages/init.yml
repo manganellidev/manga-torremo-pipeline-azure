@@ -1,13 +1,23 @@
+parameters:
+  - name: teamIdentifier
+    type: string
+    default: ""
+  - name: appName
+    type: string
+    default: ""
+  - name: artifactVersion
+    type: string
+    default: ""
+
 stages:
   - stage: init
     displayName: ⚙️ Initializing
     condition: |
       and(
-        ne(variables['TEAM_IDENTIFIER'], ''),
-        ne(variables['APP_NAME'], ''),
-        ne(variables['ARTIFACT_VERSION'], ''),
-        ne(variables['GH_TOKEN'], ''),
-        ne(variables['GH_USER'], '')
+        ne('${{ parameters.teamIdentifier }}', ''),
+        ne('${{ parameters.appName }}', ''),
+        ne('${{ parameters.artifactVersion }}', '')
+        ne(variables['GH_TOKEN'], '')
       )
     pool:
       name: "Azure Pipelines"
