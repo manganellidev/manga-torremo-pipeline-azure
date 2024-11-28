@@ -44,6 +44,9 @@ parameters:
 
 variables:
   TORREMO_LIB_CACHE_FOLDER: $(Pipeline.Workspace)/s/torremo-lib-cache
+  TEAM_IDENTIFIER: ${{ parameters.teamIdentifier }}
+  APP_NAME: ${{ parameters.appName }}
+  ARTIFACT_VERSION: ${{ parameters.artifactVersion }}
 
 stages:
   - template: /stages/init.yml

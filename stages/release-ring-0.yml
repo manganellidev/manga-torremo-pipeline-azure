@@ -24,9 +24,6 @@ stages:
         displayName: "GitOps Deploy"
         variables:
           TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
-          TEAM_IDENTIFIER: $[ stageDependencies.init.export_sdp_params.outputs['export_sdp_params.TEAM_IDENTIFIER'] ]
-          APP_NAME: $[ stageDependencies.init.export_sdp_params.outputs['export_sdp_params.APP_NAME'] ]
-          ARTIFACT_VERSION: $[ stageDependencies.init.export_sdp_params.outputs['export_sdp_params.ARTIFACT_VERSION'] ]
         steps:
           - task: Cache@2
             displayName: "Cache Torremo Library"
