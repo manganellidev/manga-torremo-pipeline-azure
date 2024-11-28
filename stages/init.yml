@@ -11,6 +11,20 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
+      - job: validate_sdp_secrets
+        displayName: "Validate SDP Secrets"
+        steps:
+          - task: Bash@3
+            name: "validate_sdp_secrets"
+            displayName: "Validate SDP Secrets"
+            inputs:
+              targetType: "inline"
+              script: |
+                if [ -z "$GH_TOKEN" ]; then
+                  echo "GH_TOKEN is missing"
+                  exit 1
+                fi
+
       - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
         steps:
