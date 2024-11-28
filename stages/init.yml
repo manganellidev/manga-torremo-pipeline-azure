@@ -11,12 +11,12 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
-      - job: validate_sdp_secrets
-        displayName: "Validate SDP Secrets"
+      - job: validate_ado_secrets
+        displayName: "Validate ADO Secrets"
         steps:
           - task: Bash@3
-            name: "validate_sdp_secrets"
-            displayName: "Validate SDP Secrets"
+            name: "validate_ado_secrets"
+            displayName: "Validate ADO Secrets"
             inputs:
               targetType: "inline"
               script: |
@@ -32,7 +32,7 @@ stages:
 
       - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
-        dependsOn: validate_sdp_secrets
+        dependsOn: validate_ado_secrets
         steps:
           - task: Bash@3
             name: "fetch_latest_release_tag"
