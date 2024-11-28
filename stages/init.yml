@@ -27,13 +27,13 @@ stages:
                 echo "${GH_TOKEN}"
                 echo "${GH_USER}"
 
-                if [ -z "${GH_TOKEN+x}" ]; then
-                  echo "GH_TOKEN is missing"
+                if [ -z "${GH_USER+x}" ] || [ "$GH_USER" = "\$(GH_USER)" ]; then
+                  echo "GH_USER is not defined or is using the placeholder value"
                   exit 1
                 fi
 
-                if [ -z "${GH_USER+x}" ]; then
-                  echo "GH_USER is missing"
+                if [ -z "${GH_TOKEN+x}" ] || [ "$GH_TOKEN" = "\$(GH_TOKEN)" ]; then
+                  echo "GH_TOKEN is not defined or is using the placeholder value"
                   exit 1
                 fi
 
