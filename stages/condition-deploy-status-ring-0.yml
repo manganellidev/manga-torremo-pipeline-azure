@@ -29,7 +29,7 @@ stages:
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
           - task: torremo-beta@1.0.41
-            displayName: deployValidation
+            displayName: Deploy Validation
             inputs:
               stepName: "deployValidation"
 
@@ -47,6 +47,6 @@ stages:
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
           - task: torremo-beta@1.0.41
-            displayName: deployValidation
+            displayName: Deploy Validation
             inputs:
               stepName: "deployValidation"
