@@ -47,8 +47,6 @@ variables:
   TEAM_IDENTIFIER: ${{ parameters.teamIdentifier }}
   APP_NAME: ${{ parameters.appName }}
   ARTIFACT_VERSION: ${{ parameters.artifactVersion }}
-  GH_TOKEN: $(GH_TOKEN)
-  GH_USER: $(GH_USER)
 
 stages:
   - template: /stages/init.yml
