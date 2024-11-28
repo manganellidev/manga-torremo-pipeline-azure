@@ -31,7 +31,6 @@ stages:
             displayName: validateDeploy
             inputs:
               stepName: "validateDeploy"
-              # flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
 
       - job: dynatrace_synthetic_monitor_smoke_test
         displayName: "Dynatrace Synthetic Monitor Smoke Test"
@@ -49,4 +48,3 @@ stages:
             displayName: validateDeploy
             inputs:
               stepName: "validateDeploy"
-              # flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"

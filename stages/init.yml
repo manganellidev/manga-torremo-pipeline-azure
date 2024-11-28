@@ -19,7 +19,6 @@ stages:
             displayName: "Validate ADO Secrets"
             env:
               GH_TOKEN: $(GH_TOKEN)
-              GH_USER: $(GH_USER)
             inputs:
               targetType: "inline"
               script: |
@@ -36,12 +35,12 @@ stages:
             name: "fetch_latest_release_tag"
             displayName: "Fetch Latest Release Tag"
             env:
-              GITHUB_TOKEN: $(GH_TOKEN)
+              GH_TOKEN: $(GH_TOKEN)
             inputs:
               targetType: "inline"
               script: |
                 echo "Logging in to GitHub"
-                gh auth login --hostname github.tools.sap --with-token <<< "$GITHUB_TOKEN"
+                gh auth login --hostname github.tools.sap --with-token <<< "$GH_TOKEN"
 
                 echo "Fetching the latest release tag"
                 LATEST_VERSION=$(gh release list --repo concur-sap-ecosystem/sdp-go-library --limit 1 --json tagName -q ".[0].tagName")
@@ -66,12 +65,12 @@ stages:
           - task: Bash@3
             displayName: "Download Latest Release from GitHub"
             env:
-              GITHUB_TOKEN: $(GH_TOKEN)
+              GH_TOKEN: $(GH_TOKEN)
             inputs:
               targetType: "inline"
               script: |
                 echo "Logging in to GitHub"
-                gh auth login --hostname github.tools.sap --with-token <<< "$GITHUB_TOKEN"
+                gh auth login --hostname github.tools.sap --with-token <<< "$GH_TOKEN"
 
                 echo "Downloading release $LATEST_VERSION from GitHub"
                 gh release download "$LATEST_VERSION" \

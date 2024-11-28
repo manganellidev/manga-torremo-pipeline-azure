@@ -34,8 +34,12 @@ stages:
           - task: torremo-beta@1.0.41
             displayName: GitOps
             env:
-              GITHUB_TOKEN: $(GH_TOKEN)
+              GH_TOKEN: $(GH_TOKEN)
             inputs:
               stepName: "gitops"
-              gitHubConnection: $(GITHUB_TOKEN)
-              flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION) --targetRegion ${{ parameters.targetRegion }}"
+              flags: >
+                --teamIdentifier $(TEAM_IDENTIFIER)
+                --appName $(APP_NAME)
+                --artifactVersion $(ARTIFACT_VERSION)
+                --targetRegion ${{ parameters.targetRegion }}
+                --githubToken $(GH_TOKEN)
