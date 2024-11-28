@@ -47,13 +47,10 @@ variables:
   TEAM_IDENTIFIER: ${{ parameters.teamIdentifier }}
   APP_NAME: ${{ parameters.appName }}
   ARTIFACT_VERSION: ${{ parameters.artifactVersion }}
+  GH_URL: $(Build.Repository.Uri)
 
 stages:
   - template: /stages/init.yml
-    parameters:
-      teamIdentifier: ${{ parameters.teamIdentifier }}
-      appName: ${{ parameters.appName }}
-      artifactVersion: ${{ parameters.artifactVersion }}
   # Ring 0
   - template: /stages/release-ring-0.yml
     parameters:
