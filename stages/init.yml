@@ -32,6 +32,7 @@ stages:
 
       - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
+        dependsOn: validate_sdp_secrets
         steps:
           - task: Bash@3
             name: "fetch_latest_release_tag"
