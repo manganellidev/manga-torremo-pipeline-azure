@@ -11,13 +11,13 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
-      - job: validate_ado_secrets
-        displayName: "Validate ADO Secrets"
+      - job: validate_pipeline_variables
+        displayName: "Validate Pipeline Variables"
         steps:
           - checkout: none
           - task: Bash@3
-            name: "validate_ado_secrets"
-            displayName: "Validate ADO Secrets"
+            name: "validate_pipeline_variables"
+            displayName: "Validate Pipeline Variables"
             env:
               GH_TOKEN: $(GH_TOKEN)
             inputs:
@@ -30,7 +30,7 @@ stages:
 
       - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
-        dependsOn: validate_ado_secrets
+        dependsOn: validate_pipeline_variables
         steps:
           - checkout: none
           - task: Bash@3
