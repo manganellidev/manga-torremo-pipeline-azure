@@ -36,4 +36,4 @@ stages:
             inputs:
               stepName: "gitops"
               gitHubConnection: ""
-              # flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
+              flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION) --targetRegion ${{ parameters.targetRegion }}"
