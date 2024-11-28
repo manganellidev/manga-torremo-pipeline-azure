@@ -16,7 +16,7 @@ stages:
       and(
         ne('${{ parameters.teamIdentifier }}', ''),
         ne('${{ parameters.appName }}', ''),
-        ne('${{ parameters.artifactVersion }}', '')
+        ne('${{ parameters.artifactVersion }}', ''),
         ne(variables['GH_TOKEN'], '')
       )
     pool:
