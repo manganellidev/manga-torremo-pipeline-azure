@@ -18,6 +18,7 @@ stages:
     jobs:
       - job: argo_application_health_check
         displayName: "Argo Application Health Check"
+        checkout: none
         variables:
           TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
         steps:
@@ -35,6 +36,7 @@ stages:
       - job: dynatrace_synthetic_monitor_smoke_test
         displayName: "Dynatrace Synthetic Monitor Smoke Test"
         dependsOn: argo_application_health_check
+        checkout: none
         variables:
           TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
         steps:

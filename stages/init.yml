@@ -13,6 +13,7 @@ stages:
     jobs:
       - job: validate_ado_secrets
         displayName: "Validate ADO Secrets"
+        checkout: none
         steps:
           - task: Bash@3
             name: "validate_ado_secrets"
@@ -30,6 +31,7 @@ stages:
       - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
         dependsOn: validate_ado_secrets
+        checkout: none
         steps:
           - task: Bash@3
             name: "fetch_latest_release_tag"
