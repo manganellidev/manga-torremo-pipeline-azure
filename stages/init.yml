@@ -25,6 +25,11 @@ stages:
                   exit 1
                 fi
 
+                if [ -z "$GH_USER" ]; then
+                  echo "GH_USER is missing"
+                  exit 1
+                fi
+
       - job: download_cache_torremo_library
         displayName: "Download and Cache Torremo Library Binary"
         steps:
