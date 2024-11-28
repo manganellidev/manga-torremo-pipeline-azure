@@ -17,6 +17,9 @@ stages:
           - task: Bash@3
             name: "validate_ado_secrets"
             displayName: "Validate ADO Secrets"
+            env:
+              GH_TOKEN: $(GH_TOKEN)
+              GH_USER: $(GH_USER)
             inputs:
               targetType: "inline"
               script: |
