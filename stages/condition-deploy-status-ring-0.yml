@@ -27,20 +27,11 @@ stages:
               key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
-          - bash: |
-              echo "Calling Argo Application Health Check"
-            displayName: "Argo Application Health Check"
-
-          - task: torremo-beta@1.0.41
-            displayName: setParamsToFile
-            inputs:
-              stepName: "setParamsToFile"
-              flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
-
           - task: torremo-beta@1.0.41
             displayName: validateDeploy
             inputs:
               stepName: "validateDeploy"
+              # flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
 
       - job: dynatrace_synthetic_monitor_smoke_test
         displayName: "Dynatrace Synthetic Monitor Smoke Test"
@@ -54,17 +45,8 @@ stages:
               key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
-          - bash: |
-              echo "Calling Dynatrace Synthetic Monitor Smoke Test ..."
-            displayName: "Dynatrace Synthetic Monitor Smoke Test"
-
-          - task: torremo-beta@1.0.41
-            displayName: setParamsToFile
-            inputs:
-              stepName: "setParamsToFile"
-              flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
-
           - task: torremo-beta@1.0.41
             displayName: validateDeploy
             inputs:
               stepName: "validateDeploy"
+              # flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"

@@ -31,24 +31,9 @@ stages:
               key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
-          - bash: |
-              echo "Calling Set Config File ..."
-              echo "$(TEAM_IDENTIFIER)"
-              echo "$(APP_NAME)"
-              echo "$(ARTIFACT_VERSION)"
-            displayName: "Set Config File"
-
           - task: torremo-beta@1.0.41
-            displayName: setParamsToFile
-            inputs:
-              stepName: "setParamsToFile"
-              flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
-
-          - bash: |
-              echo "Calling Deploy ..."
-            displayName: "Deploy"
-
-          - task: torremo-beta@1.0.41
-            displayName: gitops
+            displayName: GitOps
             inputs:
               stepName: "gitops"
+              gitHubConnection: ""
+              # flags: "--teamIdentifier $(TEAM_IDENTIFIER) --appName $(APP_NAME) --artifactVersion $(ARTIFACT_VERSION)"
