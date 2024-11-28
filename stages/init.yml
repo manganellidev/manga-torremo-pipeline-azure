@@ -1,14 +1,3 @@
-parameters:
-  - name: teamIdentifier
-    type: string
-    default: ""
-  - name: appName
-    type: string
-    default: ""
-  - name: artifactVersion
-    type: string
-    default: ""
-
 stages:
   - stage: init
     displayName: ⚙️ Initializing
