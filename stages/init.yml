@@ -6,8 +6,8 @@ stages:
         ne(variables['TEAM_IDENTIFIER'], ''),
         ne(variables['APP_NAME'], ''),
         ne(variables['ARTIFACT_VERSION'], ''),
-        ne(variables['GH_TOKEN'], ''),
-        ne(variables['GH_USER'], '')
+        ne($(GH_TOKEN), ''),
+        ne($(GH_USER), '')
       )
     pool:
       name: "Azure Pipelines"
