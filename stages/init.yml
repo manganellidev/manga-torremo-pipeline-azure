@@ -32,7 +32,7 @@ stages:
                   exit 1
                 fi
 
-                if [ -z "${GH_TOKEN+x}" ] || [ "$GH_TOKEN" = "\$(GH_TOKEN)" ]; then
+                if [ -z "$GH_TOKEN" ] || [ "$GH_TOKEN" = "\$(GH_TOKEN)" ]; then
                   echo "GH_TOKEN is not defined or is using the placeholder value"
                   exit 1
                 fi
