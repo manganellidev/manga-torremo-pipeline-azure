@@ -57,42 +57,42 @@ stages:
     parameters:
       skipStage: ${{ parameters.skipRing0ReleaseStage }}
       targetRegion: ${{ parameters.targetRegionRing0 }}
-  - template: /stages/condition-deploy-status-ring-0.yml
-    parameters:
-      targetRegion: ${{ parameters.targetRegionRing0 }}
-  - template: /stages/bake-time-ring-0.yml
-    parameters:
-      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing0ReleaseStage }}
-      targetRegion: ${{ parameters.targetRegionRing0 }}
-  # Ring 1
-  - template: /stages/release-ring-1.yml
-    parameters:
-      skipStage: ${{ parameters.skipRing1ReleaseStage }}
-      targetRegion: ${{ parameters.targetRegionRing1 }}
-  - template: /stages/condition-deploy-status-ring-1.yml
-    parameters:
-      targetRegion: ${{ parameters.targetRegionRing1 }}
-  - template: /stages/bake-time-ring-1.yml
-    parameters:
-      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing1ReleaseStage }}
-      targetRegion: ${{ parameters.targetRegionRing1 }}
-  # Ring 2
-  - template: /stages/release-ring-2.yml
-    parameters:
-      skipStage: ${{ parameters.skipRing2ReleaseStage }}
-      targetRegion: ${{ parameters.targetRegionRing2 }}
-  - template: /stages/condition-deploy-status-ring-2.yml
-    parameters:
-      targetRegion: ${{ parameters.targetRegionRing2 }}
-  - template: /stages/bake-time-ring-2.yml
-    parameters:
-      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing2ReleaseStage }}
-      targetRegion: ${{ parameters.targetRegionRing2 }}
-  # Ring 3
-  - template: /stages/release-ring-3.yml
-    parameters:
-      skipStage: ${{ parameters.skipRing3ReleaseStage }}
-      targetRegion: ${{ parameters.targetRegionRing3 }}
-  - template: /stages/condition-deploy-status-ring-3.yml
-    parameters:
-      targetRegion: ${{ parameters.targetRegionRing3 }}
+  # - template: /stages/condition-deploy-status-ring-0.yml
+  #   parameters:
+  #     targetRegion: ${{ parameters.targetRegionRing0 }}
+  # - template: /stages/bake-time-ring-0.yml
+  #   parameters:
+  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing0ReleaseStage }}
+  #     targetRegion: ${{ parameters.targetRegionRing0 }}
+  # # Ring 1
+  # - template: /stages/release-ring-1.yml
+  #   parameters:
+  #     skipStage: ${{ parameters.skipRing1ReleaseStage }}
+  #     targetRegion: ${{ parameters.targetRegionRing1 }}
+  # - template: /stages/condition-deploy-status-ring-1.yml
+  #   parameters:
+  #     targetRegion: ${{ parameters.targetRegionRing1 }}
+  # - template: /stages/bake-time-ring-1.yml
+  #   parameters:
+  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing1ReleaseStage }}
+  #     targetRegion: ${{ parameters.targetRegionRing1 }}
+  # # Ring 2
+  # - template: /stages/release-ring-2.yml
+  #   parameters:
+  #     skipStage: ${{ parameters.skipRing2ReleaseStage }}
+  #     targetRegion: ${{ parameters.targetRegionRing2 }}
+  # - template: /stages/condition-deploy-status-ring-2.yml
+  #   parameters:
+  #     targetRegion: ${{ parameters.targetRegionRing2 }}
+  # - template: /stages/bake-time-ring-2.yml
+  #   parameters:
+  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing2ReleaseStage }}
+  #     targetRegion: ${{ parameters.targetRegionRing2 }}
+  # # Ring 3
+  # - template: /stages/release-ring-3.yml
+  #   parameters:
+  #     skipStage: ${{ parameters.skipRing3ReleaseStage }}
+  #     targetRegion: ${{ parameters.targetRegionRing3 }}
+  # - template: /stages/condition-deploy-status-ring-3.yml
+  #   parameters:
+  #     targetRegion: ${{ parameters.targetRegionRing3 }}
