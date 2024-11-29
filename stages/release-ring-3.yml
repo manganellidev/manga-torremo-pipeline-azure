@@ -8,11 +8,19 @@ parameters:
 
 stages:
   - stage: release_ring_3
-    displayName: 🚀 Release ${{ parameters.targetRegion }}
-    dependsOn: ["init", "bake_time_release_ring_3"]
+    displayName: 🚀 Release ${{ parameters.targetRegion }} Environment
+    dependsOn:
+      [
+        "init",
+        "release_ring_2",
+        "condition_deploy_status_ring_2",
+        "bake_time_release_ring_2",
+      ]
     condition: |
       and(
         eq(dependencies.release_ring_2.result, 'Succeeded'),
+        eq(dependencies.condition_deploy_status_ring_2.result, 'Succeeded'),
+        eq(dependencies.bake_time_release_ring_2.result, 'Succeeded'),
         eq('${{ parameters.skipStage }}', 'false'),
         ne('${{ parameters.targetRegion }}', '')
       )
@@ -20,40 +28,30 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
-      - job: release
+      - job: gitops_deploy
+        displayName: "GitOps Deploy"
+        variables:
+          TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
         steps:
-          - checkout: self
-          - bash: |
-              script_content=$(curl -sL -H "Authorization: token $(GH_TOKEN)" \
-                "https://github.com/api/v3/repos/manganellidev/custom-sdp-pipeline-azure/contents/scripts/set-config-file.sh" | \
-                jq -r .content | base64 -d)
+          - checkout: none
+          - task: Cache@2
+            displayName: "Cache Torremo Library"
+            inputs:
+              key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
+              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
-              if [[ -z "$script_content" ]]; then
-                echo "Error: Failed to retrieve script content."
-                exit 1
-              fi
-
-              appName="${{ parameters.appName }}"
-              artifactVersion="${{ parameters.artifactVersion }}"
-              targetRegion="${{ parameters.targetRegion }}"
-              teamIdentifier="${{ parameters.teamIdentifier }}"
-              ghRepoUri="${{ parameters.ghRepoUri }}"
-
-              echo "$script_content" | bash -s -- "$appName" "$artifactVersion" "$targetRegion" "$teamIdentifier" "$ghRepoUri"
-            displayName: "Set Config File"
-          - bash: |
-              script_content=$(curl -sL -H "Authorization: token $(GH_TOKEN)" \
-                "https://github.com/api/v3/repos/manganellidev/custom-sdp-pipeline-azure/contents/scripts/gitops.sh" | \
-                jq -r .content | base64 -d)
-
-              if [[ -z "$script_content" ]]; then
-                echo "Error: Failed to retrieve script content."
-                exit 1
-              fi
-
-              ghToken=$(GH_TOKEN) 
-              ghEmail=$(GH_EMAIL) 
-              ghUsername=$(GH_USERNAME)
-
-              echo "$script_content" | bash -s -- "$ghToken" "$ghEmail" "$ghUsername"
-            displayName: "Custom GitOps"
+          - task: torremo-beta@1
+            displayName: GitOps
+            env:
+              GH_TOKEN: $(GH_TOKEN)
+            inputs:
+              stepName: "gitops"
+              flags: >
+                --teamIdentifier $(TEAM_IDENTIFIER)
+                --appName $(APP_NAME)
+                --artifactVersion $(ARTIFACT_VERSION)
+                --targetRegion ${{ parameters.targetRegion }}
+                --githubAppRepoToken $(GH_TOKEN)
+                --githubAppRepoUrl $(GH_APP_REPO_URL)
+                --githubGitOpsRepoToken $(GH_TOKEN)
+                --githubGitOpsRepoUrl $(GH_GITOPS_REPO_URL)

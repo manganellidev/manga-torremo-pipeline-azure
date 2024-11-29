@@ -32,7 +32,7 @@ stages:
               key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
               path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
-          - task: torremo-beta@1.0.41
+          - task: torremo-beta@1
             displayName: GitOps
             env:
               GH_TOKEN: $(GH_TOKEN)
@@ -43,5 +43,7 @@ stages:
                 --appName $(APP_NAME)
                 --artifactVersion $(ARTIFACT_VERSION)
                 --targetRegion ${{ parameters.targetRegion }}
-                --githubToken $(GH_TOKEN)
-                --githubUrl $(GH_URL)
+                --githubAppRepoToken $(GH_TOKEN)
+                --githubAppRepoUrl $(GH_APP_REPO_URL)
+                --githubGitOpsRepoToken $(GH_TOKEN)
+                --githubGitOpsRepoUrl $(GH_GITOPS_REPO_URL)

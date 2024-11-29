@@ -14,6 +14,9 @@ parameters:
   - name: targetRegionRing0
     type: string
     default: ""
+  - name: bakeTimeInMinutesRing0ReleaseStage
+    type: number
+    default: 0
   - name: skipRing1ReleaseStage
     type: boolean
     default: false
@@ -38,16 +41,14 @@ parameters:
   - name: targetRegionRing3
     type: string
     default: ""
-  - name: bakeTimeInMinutesRing3ReleaseStage
-    type: number
-    default: 0
 
 variables:
   TORREMO_LIB_CACHE_FOLDER: $(Pipeline.Workspace)/s/torremo-lib-cache
   TEAM_IDENTIFIER: ${{ parameters.teamIdentifier }}
   APP_NAME: ${{ parameters.appName }}
   ARTIFACT_VERSION: ${{ parameters.artifactVersion }}
-  GH_URL: $(Build.Repository.Uri)
+  GH_APP_REPO_URL: $(Build.Repository.Uri)
+  GH_GITOPS_REPO_URL: "https://github.tools.sap/concur-sap-ecosystem/workloads"
 
 stages:
   - template: /stages/init.yml
@@ -59,39 +60,39 @@ stages:
   - template: /stages/condition-deploy-status-ring-0.yml
     parameters:
       targetRegion: ${{ parameters.targetRegionRing0 }}
-  # # Ring 1
-  # - template: /stages/bake-time-ring-1.yml
-  #   parameters:
-  #     skipStage: ${{ parameters.skipRing1ReleaseStage }}
-  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing1ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  # - template: /stages/release-ring-1.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  # - template: /stages/condition-deploy-status-ring-1.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  # # Ring 2
-  # - template: /stages/bake-time-ring-2.yml
-  #   parameters:
-  #     skipStage: ${{ parameters.skipRing2ReleaseStage }}
-  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing2ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  # - template: /stages/release-ring-2.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  # - template: /stages/condition-deploy-status-ring-2.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  # # Ring 3
-  # - template: /stages/bake-time-ring-3.yml
-  #   parameters:
-  #     skipStage: ${{ parameters.skipRing3ReleaseStage }}
-  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing3ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing3 }}
-  # - template: /stages/release-ring-3.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing3 }}
-  # - template: /stages/condition-deploy-status-ring-3.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing3 }}
+  - template: /stages/bake-time-ring-0.yml
+    parameters:
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing0ReleaseStage }}
+      targetRegion: ${{ parameters.targetRegionRing0 }}
+  # Ring 1
+  - template: /stages/release-ring-1.yml
+    parameters:
+      skipStage: ${{ parameters.skipRing1ReleaseStage }}
+      targetRegion: ${{ parameters.targetRegionRing1 }}
+  - template: /stages/condition-deploy-status-ring-1.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing1 }}
+  - template: /stages/bake-time-ring-1.yml
+    parameters:
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing1ReleaseStage }}
+      targetRegion: ${{ parameters.targetRegionRing1 }}
+  # Ring 2
+  - template: /stages/release-ring-2.yml
+    parameters:
+      skipStage: ${{ parameters.skipRing2ReleaseStage }}
+      targetRegion: ${{ parameters.targetRegionRing2 }}
+  - template: /stages/condition-deploy-status-ring-2.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing2 }}
+  - template: /stages/bake-time-ring-2.yml
+    parameters:
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing2ReleaseStage }}
+      targetRegion: ${{ parameters.targetRegionRing2 }}
+  # Ring 3
+  - template: /stages/release-ring-3.yml
+    parameters:
+      skipStage: ${{ parameters.skipRing3ReleaseStage }}
+      targetRegion: ${{ parameters.targetRegionRing3 }}
+  - template: /stages/condition-deploy-status-ring-3.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing3 }}

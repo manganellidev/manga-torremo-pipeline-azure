@@ -1,7 +1,4 @@
 parameters:
-  - name: skipStage
-    type: boolean
-    default: false
   - name: targetRegion
     type: string
     default: ""
@@ -12,12 +9,11 @@ parameters:
 stages:
   - stage: bake_time_release_ring_1
     displayName: 🍰 Bake Time ${{ parameters.targetRegion }}
-    dependsOn: ["condition_deploy_status_ring_0"]
+    dependsOn: ["condition_deploy_status_ring_1"]
     condition: |
       and(
-        eq(dependencies.release_ring_0.result, 'Succeeded'),
-        ne('${{ parameters.targetRegion }}', ''),
-        eq('${{ parameters.skipStage }}', 'false')
+        eq(dependencies.release_ring_1.result, 'Succeeded'),
+        ne('${{ parameters.targetRegion }}', '')
       )
     pool: server
     jobs:
