@@ -91,6 +91,7 @@ stages:
     parameters:
       skipStage: ${{ parameters.skipRing1 }}
       autoPromote: ${{ parameters.autoPromoteRing1 }}
+      previousRegion: ${{ parameters.targetRegionRing0 }}
       targetRegion: ${{ parameters.targetRegionRing1 }}
   - template: /stages/ring-1/release.yml
     parameters:
@@ -107,6 +108,7 @@ stages:
     parameters:
       skipStage: ${{ parameters.skipRing2 }}
       autoPromote: ${{ parameters.autoPromoteRing2 }}
+      previousRegion: ${{ parameters.targetRegionRing1 }}
       targetRegion: ${{ parameters.targetRegionRing2 }}
   - template: /stages/ring-2/release.yml
     parameters:
@@ -123,6 +125,7 @@ stages:
     parameters:
       skipStage: ${{ parameters.skipRing3 }}
       autoPromote: ${{ parameters.autoPromoteRing3 }}
+      previousRegion: ${{ parameters.targetRegionRing2 }}
       targetRegion: ${{ parameters.targetRegionRing3 }}
   - template: /stages/ring-3/release.yml
     parameters:
