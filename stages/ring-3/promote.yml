@@ -17,3 +17,4 @@ stages:
       skipStage: ${{ parameters.skipStage }}
       dependsOnStages:
         - init
+        - bake_time_${{ parameters.targetRegion }}
