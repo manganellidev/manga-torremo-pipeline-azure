@@ -12,6 +12,7 @@ parameters:
 stages:
   - template: ../common/promote.yml
     parameters:
+      previousRegion: "none"
       targetRegion: ${{ parameters.targetRegion }}
       autoPromote: ${{ parameters.autoPromote }}
       skipStage: ${{ parameters.skipStage }}
