@@ -5,6 +5,9 @@ parameters:
   - name: targetRegion
     type: string
     default: ""
+  - name: previousRegion
+    type: string
+    default: ""
   - name: autoPromote
     type: boolean
     default: false
@@ -18,7 +21,8 @@ stages:
     condition: |
       and(
         eq('${{ parameters.skipStage }}', 'false'),
-        ne('${{ parameters.targetRegion }}', '')
+        ne('${{ parameters.targetRegion }}', ''),
+        ne('${{ parameters.previousRegion }}', '')
       )
     displayName: 🕵️‍♂️ [${{ parameters.targetRegion }}] Promote
     pool: server

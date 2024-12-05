@@ -2,6 +2,9 @@ parameters:
   - name: targetRegion
     type: string
     default: ""
+  - name: previousRegion
+    type: string
+    default: ""
   - name: autoPromote
     type: boolean
     default: false
@@ -17,4 +20,4 @@ stages:
       skipStage: ${{ parameters.skipStage }}
       dependsOnStages:
         - init
-        - bake_time_${{ parameters.targetRegion }}
+        - bake_time_${{ parameters.previousRegion }}
