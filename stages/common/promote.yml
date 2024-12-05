@@ -20,7 +20,7 @@ stages:
         eq('${{ parameters.skipStage }}', 'false'),
         ne('${{ parameters.targetRegion }}', '')
       )
-    displayName: 🕵️‍♂️ ${{ parameters.targetRegion }} Ring Promotion
+    displayName: 🕵️‍♂️ [${{ parameters.targetRegion }}] Promote
     pool: server
     jobs:
       - job: promote

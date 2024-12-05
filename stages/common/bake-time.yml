@@ -18,7 +18,7 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
       )
-    displayName: 🍰 Bake Time ${{ parameters.targetRegion }}
+    displayName: 🍰 [${{ parameters.targetRegion }}] Bake Time
     pool: server
     jobs:
       - job: bake_time

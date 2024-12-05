@@ -15,7 +15,7 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
       )
-    displayName: 🚀 Release ${{ parameters.targetRegion }} Environment
+    displayName: 🚀 [${{ parameters.targetRegion }}] Release
     pool:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
