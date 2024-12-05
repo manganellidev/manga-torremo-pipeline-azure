@@ -8,39 +8,57 @@ parameters:
   - name: artifactVersion
     type: string
     default: ""
-  - name: skipRing0ReleaseStage
+  - name: skipRing0
+    type: boolean
+    default: false
+  - name: autoPromoteRing0
     type: boolean
     default: false
   - name: targetRegionRing0
     type: string
     default: ""
-  - name: bakeTimeInMinutesRing0ReleaseStage
+  - name: bakeTimeInMinutesRing0
     type: number
     default: 0
-  - name: skipRing1ReleaseStage
+  - name: skipRing1
+    type: boolean
+    default: false
+  - name: autoPromoteRing1
     type: boolean
     default: false
   - name: targetRegionRing1
     type: string
     default: ""
-  - name: bakeTimeInMinutesRing1ReleaseStage
+  - name: bakeTimeInMinutesRing1
     type: number
     default: 0
-  - name: skipRing2ReleaseStage
+  - name: skipRing2
+    type: boolean
+    default: false
+  - name: autoPromoteRing2
     type: boolean
     default: false
   - name: targetRegionRing2
     type: string
     default: ""
-  - name: bakeTimeInMinutesRing2ReleaseStage
+  - name: bakeTimeInMinutesRing2
     type: number
     default: 0
-  - name: skipRing3ReleaseStage
+  - name: skipRing3
+    type: boolean
+    default: false
+  - name: autoPromoteRing3
     type: boolean
     default: false
   - name: targetRegionRing3
     type: string
     default: ""
+  - name: dynatraceSmokeTest
+    type: boolean
+    default: false
+  # - name: originBranch   <<<<<<<< if needed: RETRIEVE it from env var and add to variables refer to GH_APP_REPO_URL
+  #   type: string
+  #   default: ""
 
 variables:
   TORREMO_LIB_CACHE_FOLDER: $(Pipeline.Workspace)/s/torremo-lib-cache
@@ -53,46 +71,62 @@ variables:
 stages:
   - template: /stages/init.yml
   # Ring 0
-  - template: /stages/release-ring-0.yml
+  - template: /stages/ring-0/promote.yml
     parameters:
-      skipStage: ${{ parameters.skipRing0ReleaseStage }}
+      skipStage: ${{ parameters.skipRing0 }}
+      autoPromote: ${{ parameters.autoPromoteRing0 }}
       targetRegion: ${{ parameters.targetRegionRing0 }}
-  # - template: /stages/condition-deploy-status-ring-0.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing0 }}
-  # - template: /stages/bake-time-ring-0.yml
-  #   parameters:
-  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing0ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing0 }}
-  # # Ring 1
-  # - template: /stages/release-ring-1.yml
-  #   parameters:
-  #     skipStage: ${{ parameters.skipRing1ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  # - template: /stages/condition-deploy-status-ring-1.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  # - template: /stages/bake-time-ring-1.yml
-  #   parameters:
-  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing1ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing1 }}
-  # # Ring 2
-  # - template: /stages/release-ring-2.yml
-  #   parameters:
-  #     skipStage: ${{ parameters.skipRing2ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  # - template: /stages/condition-deploy-status-ring-2.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  # - template: /stages/bake-time-ring-2.yml
-  #   parameters:
-  #     bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing2ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing2 }}
-  # # Ring 3
-  # - template: /stages/release-ring-3.yml
-  #   parameters:
-  #     skipStage: ${{ parameters.skipRing3ReleaseStage }}
-  #     targetRegion: ${{ parameters.targetRegionRing3 }}
-  # - template: /stages/condition-deploy-status-ring-3.yml
-  #   parameters:
-  #     targetRegion: ${{ parameters.targetRegionRing3 }}
+  - template: /stages/ring-0/release.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing0 }}
+  - template: /stages/ring-0/deploy-validation.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing0 }}
+  - template: /stages/ring-0/bake-time.yml
+    parameters:
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing0 }}
+      targetRegion: ${{ parameters.targetRegionRing0 }}
+  # Ring 1
+  - template: /stages/ring-1/promote.yml
+    parameters:
+      skipStage: ${{ parameters.skipRing1 }}
+      autoPromote: ${{ parameters.autoPromoteRing1 }}
+      targetRegion: ${{ parameters.targetRegionRing1 }}
+  - template: /stages/ring-1/release.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing1 }}
+  - template: /stages/ring-1/deploy-validation.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing1 }}
+  - template: /stages/ring-1/bake-time.yml
+    parameters:
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing1 }}
+      targetRegion: ${{ parameters.targetRegionRing1 }}
+  # Ring 2
+  - template: /stages/ring-2/promote.yml
+    parameters:
+      skipStage: ${{ parameters.skipRing2 }}
+      autoPromote: ${{ parameters.autoPromoteRing2 }}
+      targetRegion: ${{ parameters.targetRegionRing2 }}
+  - template: /stages/ring-2/release.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing2 }}
+  - template: /stages/ring-2/deploy-validation.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing2 }}
+  - template: /stages/ring-2/bake-time.yml
+    parameters:
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutesRing2 }}
+      targetRegion: ${{ parameters.targetRegionRing2 }}
+  # Ring 3
+  - template: /stages/ring-3/promote.yml
+    parameters:
+      skipStage: ${{ parameters.skipRing3 }}
+      autoPromote: ${{ parameters.autoPromoteRing3 }}
+      targetRegion: ${{ parameters.targetRegionRing3 }}
+  - template: /stages/ring-3/release.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing3 }}
+  - template: /stages/ring-3/deploy-validation.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegionRing3 }}

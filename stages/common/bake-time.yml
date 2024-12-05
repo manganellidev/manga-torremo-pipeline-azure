@@ -5,16 +5,20 @@ parameters:
   - name: bakeTimeInMinutes
     type: number
     default: 0
+  - name: dependsOnStages
+    type: object
+    default: []
 
 stages:
-  - stage: bake_time_release_ring_2
-    displayName: 🍰 Bake Time ${{ parameters.targetRegion }}
-    dependsOn: ["condition_deploy_status_ring_2"]
+  - stage: bake_time_${{ parameters.targetRegion }}
+    dependsOn: ${{ parameters.dependsOnStages }}
     condition: |
       and(
-        eq(dependencies.release_ring_2.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
       )
+    displayName: 🍰 Bake Time ${{ parameters.targetRegion }}
     pool: server
     jobs:
       - job: bake_time

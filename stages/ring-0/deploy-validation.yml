@@ -1,0 +1,12 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+
+stages:
+  - template: ../common/deploy-validation.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegion }}
+      dependsOnStages:
+        - init
+        - release_${{ parameters.targetRegion }}

@@ -2,28 +2,20 @@ parameters:
   - name: targetRegion
     type: string
     default: ""
-  - name: skipStage
-    type: boolean
-    default: false
+  - name: dependsOnStages
+    type: object
+    default: []
 
 stages:
-  - stage: release_ring_3
-    displayName: 🚀 Release ${{ parameters.targetRegion }} Environment
-    dependsOn:
-      [
-        "init",
-        "release_ring_2",
-        "condition_deploy_status_ring_2",
-        "bake_time_release_ring_2",
-      ]
+  - stage: release_${{ parameters.targetRegion }}
+    dependsOn: ${{ parameters.dependsOnStages }}
     condition: |
       and(
-        eq(dependencies.release_ring_2.result, 'Succeeded'),
-        eq(dependencies.condition_deploy_status_ring_2.result, 'Succeeded'),
-        eq(dependencies.bake_time_release_ring_2.result, 'Succeeded'),
-        eq('${{ parameters.skipStage }}', 'false'),
+        eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
       )
+    displayName: 🚀 Release ${{ parameters.targetRegion }} Environment
     pool:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"

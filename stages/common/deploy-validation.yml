@@ -2,16 +2,20 @@ parameters:
   - name: targetRegion
     type: string
     default: ""
+  - name: dependsOnStages
+    type: object
+    default: []
 
 stages:
-  - stage: condition_deploy_status_ring_3
-    displayName: 🩺 Release Health Check for ${{ parameters.targetRegion }} Environment
-    dependsOn: ["init", "release_ring_3"]
+  - stage: deploy_validation_${{ parameters.targetRegion }}
+    dependsOn: ${{ parameters.dependsOnStages }}
     condition: |
       and(
-        eq(dependencies.release_ring_3.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
       )
+    displayName: 🩺 Release Health Check for ${{ parameters.targetRegion }} Environment
     pool:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"

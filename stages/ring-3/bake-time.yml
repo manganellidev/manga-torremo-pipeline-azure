@@ -1,0 +1,16 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: bakeTimeInMinutes
+    type: number
+    default: 0
+
+stages:
+  - template: ../common/bake-time.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegion }}
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
+      dependsOnStages:
+        - release_${{ parameters.targetRegion }}
+        - deploy_validation_${{ parameters.targetRegion }}

@@ -1,0 +1,19 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: autoPromote
+    type: boolean
+    default: false
+  - name: skipStage
+    type: boolean
+    default: false
+
+stages:
+  - template: ../common/promote.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegion }}
+      autoPromote: ${{ parameters.autoPromote }}
+      skipStage: ${{ parameters.skipStage }}
+      dependsOnStages:
+        - init
