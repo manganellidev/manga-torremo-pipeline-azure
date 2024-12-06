@@ -20,7 +20,7 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         or(
           and(
-            contains(dependencies.${{ parameters.dependsOnStages[1] }}),
+            contains('${{ parameters.dependsOnStages[1] }}'),
             eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded')
           ),
         ),
