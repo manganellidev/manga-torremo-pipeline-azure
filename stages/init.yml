@@ -137,4 +137,4 @@ stages:
                   fi
 
                   echo -e "\033[32mRing values for ${{ ring.targetRegion }} region are valid\033[0m"
-                displayName: "Validating ring values for ${{ ring.targetRegion }}"
+                displayName: "[${{ ring.targetRegion }}] Validate ring values"
