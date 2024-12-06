@@ -25,7 +25,7 @@ parameters:
     default: 0
   - name: skipRing1
     type: boolean
-    default: false
+    default: true
   - name: autoPromoteRing1
     type: boolean
     default: false
@@ -40,7 +40,7 @@ parameters:
     default: 0
   - name: skipRing2
     type: boolean
-    default: false
+    default: true
   - name: autoPromoteRing2
     type: boolean
     default: false
@@ -55,7 +55,7 @@ parameters:
     default: 0
   - name: skipRing3
     type: boolean
-    default: false
+    default: true
   - name: autoPromoteRing3
     type: boolean
     default: false
