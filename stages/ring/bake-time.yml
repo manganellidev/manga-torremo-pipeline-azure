@@ -5,12 +5,23 @@ parameters:
   - name: bakeTimeInMinutes
     type: number
     default: 0
+  - name: dynatraceSmokeTest
+    type: boolean
+    default: false
 
 stages:
-  - template: ../common/bake-time.yml
-    parameters:
-      targetRegion: ${{ parameters.targetRegion }}
-      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
-      dependsOnStages:
-        - release_${{ parameters.targetRegion }}
-        - deploy_validation_${{ parameters.targetRegion }}
+  - ${{ if eq(parameters.dynatraceSmokeTest, true }}:
+      - template: ../common/bake-time.yml
+        parameters:
+          targetRegion: ${{ parameters.targetRegion }}
+          bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
+          dependsOnStages:
+            - release_${{ parameters.targetRegion }}
+            - deploy_validation_${{ parameters.targetRegion }}
+  - ${{ else }}:
+      - template: ../common/bake-time.yml
+        parameters:
+          targetRegion: ${{ parameters.targetRegion }}
+          bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
+          dependsOnStages:
+            - release_${{ parameters.targetRegion }}

@@ -71,4 +71,5 @@ stages:
       - template: /stages/ring/bake-time.yml
         parameters:
           bakeTimeInMinutes: ${{ ring.bakeTimeInMinutes }}
+          dynatraceSmokeTest: ${{ ring.dynatraceSmokeTest }}
           targetRegion: ${{ ring.targetRegion }}
