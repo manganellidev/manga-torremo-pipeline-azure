@@ -19,7 +19,7 @@ stages:
         ne('${{ parameters.targetRegion }}', ''),
         ne('${{ parameters.skipPostDeployValidation }}', 'false')
       )
-    displayName: 🩺 [${{ parameters.targetRegion }}] Deploy Validation
+    displayName: 🩺 [${{ parameters.targetRegion }}] Post Deploy Validation
     pool:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
