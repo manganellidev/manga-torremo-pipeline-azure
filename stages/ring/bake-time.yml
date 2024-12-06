@@ -13,14 +13,13 @@ parameters:
     default: false
 
 stages:
-  - ${{ if ne(parameters.skipPostDeployValidation, true) }}:
+  - ${{ if eq(parameters.skipPostDeployValidation, false) }}:
       - template: ../common/bake-time.yml
         parameters:
           targetRegion: ${{ parameters.targetRegion }}
           bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
           dependsOnStages:
             - release_${{ parameters.targetRegion }}
-            - post_deploy_validation_${{ parameters.targetRegion }}
   - ${{ else }}:
       - template: ../common/bake-time.yml
         parameters:
@@ -28,3 +27,4 @@ stages:
           bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
           dependsOnStages:
             - release_${{ parameters.targetRegion }}
+            - post_deploy_validation_${{ parameters.targetRegion }}
