@@ -94,4 +94,4 @@ stages:
               targetType: "inline"
               script: |
                 echo "Validating input parameters"
-                echo "${{ parameters.rings }}"
+                echo '${{ toJson(parameters.rings) }}'
