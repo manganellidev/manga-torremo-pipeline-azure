@@ -123,7 +123,7 @@ stages:
                     fi
                   }
 
-                  echo "Validating ring values for ${{ ring.targetRegion }}"
+                  echo "\n Validating ring values for ${{ ring.targetRegion }} region"
 
                   validate_region "${{ ring.targetRegion }}" "targetRegion"
                   validate_region "${{ ring.previousRegion }}" "previousRegion"
@@ -137,4 +137,4 @@ stages:
                     exit 1
                   fi
 
-                  echo -e "\033[32mRing values for ${{ ring.targetRegion }} are valid\033[0m"
+                  echo -e "\033[32mRing values for ${{ ring.targetRegion }} region are valid\033[0m"
