@@ -1,0 +1,36 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: previousRegion
+    type: string
+    default: ""
+  - name: autoPromote
+    type: boolean
+    default: false
+  - name: dependsOnStages
+    type: object
+    default: []
+
+stages:
+  - stage: promote_${{ parameters.targetRegion }}
+    dependsOn: ${{ parameters.dependsOnStages }}
+    condition: |
+      and(
+        eq(dependencies['${{ parameters.dependsOnStages[0] }}'].result, 'Succeeded'),
+        eq(dependencies['${{ parameters.dependsOnStages[1] }}'].result, 'Succeeded'),
+        ne('${{ parameters.targetRegion }}', ''),
+        ne('${{ parameters.previousRegion }}', '')
+      )
+    displayName: 🕵️‍♂️ [${{ parameters.targetRegion }}] Promote
+    pool: server
+    jobs:
+      - job: promote
+        timeoutInMinutes: 10080
+        displayName: Promote
+        steps:
+          - ${{ if eq(parameters.autoPromote, false) }}:
+              - task: ManualValidation@0
+                timeoutInMinutes: 10080
+                inputs:
+                  instructions: "Shall we promote to the ring (${{ parameters.targetRegion }})?"

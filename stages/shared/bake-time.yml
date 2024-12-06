@@ -1,0 +1,43 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: bakeTimeInMinutes
+    type: number
+    default: 0
+  - name: skipBakeTime
+    type: boolean
+    default: false
+  - name: dependsOnStages
+    type: object
+    default: []
+
+stages:
+  - stage: bake_time_${{ parameters.targetRegion }}
+    dependsOn: ${{ parameters.dependsOnStages }}
+    condition: |
+      and(
+        eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
+        ne('${{ parameters.targetRegion }}', ''),
+        ne('${{ parameters.skipBakeTime }}', true)
+      )
+    displayName: 🍰 [${{ parameters.targetRegion }}] Bake Time
+    pool: server
+    jobs:
+      - job: bake_time
+        timeoutInMinutes: 10080
+        displayName: Waiting for SDP bake time
+        steps:
+          - ${{ if eq(parameters.bakeTimeInMinutes, 0) }}:
+              - task: ManualValidation@0
+                timeoutInMinutes: 1
+                inputs:
+                  instructions: "Shall we skip the bake time and resume?"
+                  onTimeout: "resume"
+          - ${{ if ne(parameters.bakeTimeInMinutes, 0) }}:
+              - task: ManualValidation@0
+                timeoutInMinutes: ${{ parameters.bakeTimeInMinutes }}
+                inputs:
+                  instructions: "Shall we skip the bake time and resume?"
+                  onTimeout: "resume"

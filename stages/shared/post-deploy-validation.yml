@@ -1,0 +1,42 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: skipPostDeployValidation
+    type: boolean
+    default: false
+  - name: dependsOnStages
+    type: object
+    default: []
+
+stages:
+  - stage: post_deploy_validation_${{ parameters.targetRegion }}
+    dependsOn: ${{ parameters.dependsOnStages }}
+    condition: |
+      and(
+        eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
+        ne('${{ parameters.targetRegion }}', ''),
+        eq('${{ parameters.skipPostDeployValidation }}', 'false')
+      )
+    displayName: 🩺 [${{ parameters.targetRegion }}] Post Deploy Validation
+    pool:
+      name: "Azure Pipelines"
+      vmImage: "ubuntu-latest"
+    jobs:
+      - job: dynatrace_synthetic_monitor_smoke_test
+        displayName: "Dynatrace Synthetic Monitor Smoke Test"
+        variables:
+          TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
+        steps:
+          - checkout: none
+          - task: Cache@2
+            displayName: "Cache Torremo Library"
+            inputs:
+              key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
+              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
+
+          - task: torremo-beta@1
+            displayName: Deploy Validation
+            inputs:
+              stepName: "deployValidation"

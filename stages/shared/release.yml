@@ -1,0 +1,66 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: dependsOnStages
+    type: object
+    default: []
+
+stages:
+  - stage: release_${{ parameters.targetRegion }}
+    dependsOn: ${{ parameters.dependsOnStages }}
+    condition: |
+      and(
+        eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
+        ne('${{ parameters.targetRegion }}', '')
+      )
+    displayName: 🚀 [${{ parameters.targetRegion }}] Release
+    pool:
+      name: "Azure Pipelines"
+      vmImage: "ubuntu-latest"
+    jobs:
+      - job: gitops_deploy
+        displayName: "GitOps Deploy"
+        variables:
+          TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
+        steps:
+          - checkout: none
+          - task: Cache@2
+            displayName: "Cache Torremo Library"
+            inputs:
+              key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
+              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
+
+          - task: torremo-beta@1
+            displayName: GitOps
+            env:
+              GH_TOKEN: $(GH_TOKEN)
+            inputs:
+              stepName: "gitops"
+              flags: >
+                --teamIdentifier $(TEAM_IDENTIFIER)
+                --appName $(APP_NAME)
+                --artifactVersion $(ARTIFACT_VERSION)
+                --targetRegion ${{ parameters.targetRegion }}
+                --githubAppRepoToken $(GH_TOKEN)
+                --githubAppRepoUrl $(GH_APP_REPO_URL)
+                --githubGitOpsRepoToken $(GH_TOKEN)
+                --githubGitOpsRepoUrl $(GH_GITOPS_REPO_URL)
+
+      - job: argo_application_health_check
+        displayName: "Argo Application Health Check"
+        variables:
+          TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
+        steps:
+          - checkout: none
+          - task: Cache@2
+            displayName: "Cache Torremo Library"
+            inputs:
+              key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
+              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
+
+          - task: torremo-beta@1
+            displayName: Deploy Validation
+            inputs:
+              stepName: "deployValidation"
