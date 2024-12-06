@@ -16,80 +16,80 @@ stages:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
-      - job: validate_pipeline_variables
-        displayName: "Validate Pipeline Variables"
-        steps:
-          - checkout: none
-          - task: Bash@3
-            name: "validate_pipeline_variables"
-            displayName: "Validate Pipeline Variables"
-            env:
-              GH_TOKEN: $(GH_TOKEN)
-            inputs:
-              targetType: "inline"
-              script: |
-                if [ -z "$GH_TOKEN" ] || [ "$GH_TOKEN" = "\$(GH_TOKEN)" ]; then
-                  echo "GH_TOKEN is not defined or is the default value. Please set the GH_TOKEN variable in the pipeline."
-                  exit 1
-                fi
+      # - job: validate_pipeline_variables
+      #   displayName: "Validate Pipeline Variables"
+      #   steps:
+      #     - checkout: none
+      #     - task: Bash@3
+      #       name: "validate_pipeline_variables"
+      #       displayName: "Validate Pipeline Variables"
+      #       env:
+      #         GH_TOKEN: $(GH_TOKEN)
+      #       inputs:
+      #         targetType: "inline"
+      #         script: |
+      #           if [ -z "$GH_TOKEN" ] || [ "$GH_TOKEN" = "\$(GH_TOKEN)" ]; then
+      #             echo "GH_TOKEN is not defined or is the default value. Please set the GH_TOKEN variable in the pipeline."
+      #             exit 1
+      #           fi
 
-      - job: download_cache_torremo_library
-        dependsOn: validate_pipeline_variables
-        displayName: "Download and Cache Torremo Library Binary"
-        steps:
-          - checkout: none
-          - task: Bash@3
-            name: "fetch_latest_release_tag"
-            displayName: "Fetch Latest Release Tag"
-            env:
-              GH_TOKEN: $(GH_TOKEN)
-            inputs:
-              targetType: "inline"
-              script: |
-                echo "Logging in to GitHub"
-                gh auth login --hostname github.tools.sap --with-token <<< "$GH_TOKEN"
+      # - job: download_cache_torremo_library
+      #   dependsOn: validate_pipeline_variables
+      #   displayName: "Download and Cache Torremo Library Binary"
+      #   steps:
+      #     - checkout: none
+      #     - task: Bash@3
+      #       name: "fetch_latest_release_tag"
+      #       displayName: "Fetch Latest Release Tag"
+      #       env:
+      #         GH_TOKEN: $(GH_TOKEN)
+      #       inputs:
+      #         targetType: "inline"
+      #         script: |
+      #           echo "Logging in to GitHub"
+      #           gh auth login --hostname github.tools.sap --with-token <<< "$GH_TOKEN"
 
-                echo "Fetching the latest release tag"
-                LATEST_VERSION=$(gh release list --repo concur-sap-ecosystem/sdp-go-library --limit 1 --json tagName -q ".[0].tagName")
+      #           echo "Fetching the latest release tag"
+      #           LATEST_VERSION=$(gh release list --repo concur-sap-ecosystem/sdp-go-library --limit 1 --json tagName -q ".[0].tagName")
 
-                if [ -z "$LATEST_VERSION" ]; then
-                  echo "Error: Unable to fetch the latest release tag."
-                  exit 1
-                fi
+      #           if [ -z "$LATEST_VERSION" ]; then
+      #             echo "Error: Unable to fetch the latest release tag."
+      #             exit 1
+      #           fi
 
-                echo "Latest release tag is $LATEST_VERSION"
-                # Export for use within the same job
-                echo "##vso[task.setvariable variable=LATEST_VERSION]$LATEST_VERSION"
-                # Export for use in other jobs
-                echo "##vso[task.setvariable variable=LATEST_VERSION;isOutput=true]$LATEST_VERSION"
+      #           echo "Latest release tag is $LATEST_VERSION"
+      #           # Export for use within the same job
+      #           echo "##vso[task.setvariable variable=LATEST_VERSION]$LATEST_VERSION"
+      #           # Export for use in other jobs
+      #           echo "##vso[task.setvariable variable=LATEST_VERSION;isOutput=true]$LATEST_VERSION"
 
-          - task: Cache@2
-            displayName: "Cache Torremo Library"
-            inputs:
-              key: '"torremo" | "$(Agent.OS)" | "$(LATEST_VERSION)"'
-              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
+      #     - task: Cache@2
+      #       displayName: "Cache Torremo Library"
+      #       inputs:
+      #         key: '"torremo" | "$(Agent.OS)" | "$(LATEST_VERSION)"'
+      #         path: "$(TORREMO_LIB_CACHE_FOLDER)/"
 
-          - task: Bash@3
-            displayName: "Download Latest Release from GitHub"
-            env:
-              GH_TOKEN: $(GH_TOKEN)
-            inputs:
-              targetType: "inline"
-              script: |
-                echo "Logging in to GitHub"
-                gh auth login --hostname github.tools.sap --with-token <<< "$GH_TOKEN"
+      #     - task: Bash@3
+      #       displayName: "Download Latest Release from GitHub"
+      #       env:
+      #         GH_TOKEN: $(GH_TOKEN)
+      #       inputs:
+      #         targetType: "inline"
+      #         script: |
+      #           echo "Logging in to GitHub"
+      #           gh auth login --hostname github.tools.sap --with-token <<< "$GH_TOKEN"
 
-                echo "Downloading release $LATEST_VERSION from GitHub"
-                gh release download "$LATEST_VERSION" \
-                  --repo concur-sap-ecosystem/sdp-go-library \
-                  --dir "$(TORREMO_LIB_CACHE_FOLDER)" \
-                  --clobber
+      #           echo "Downloading release $LATEST_VERSION from GitHub"
+      #           gh release download "$LATEST_VERSION" \
+      #             --repo concur-sap-ecosystem/sdp-go-library \
+      #             --dir "$(TORREMO_LIB_CACHE_FOLDER)" \
+      #             --clobber
 
-                echo "Download complete. Files saved to $(TORREMO_LIB_CACHE_FOLDER)"
+      #           echo "Download complete. Files saved to $(TORREMO_LIB_CACHE_FOLDER)"
 
       # TODO: replace it by torremo task
       - job: validate_ring_values
-        dependsOn: download_cache_torremo_library
+        # dependsOn: download_cache_torremo_library
         displayName: Validate Ring Values
         steps:
           - ${{ each ring in parameters.rings }}:
