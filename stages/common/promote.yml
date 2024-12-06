@@ -12,9 +12,6 @@ parameters:
     type: object
     default: []
 
-variables:
-  dependsOnBakeTime: ${{ parameters.dependsOnStages[1] }}
-
 stages:
   - stage: promote_${{ parameters.targetRegion }}
     dependsOn: ${{ parameters.dependsOnStages }}
