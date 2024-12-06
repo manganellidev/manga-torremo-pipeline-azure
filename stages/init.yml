@@ -94,4 +94,5 @@ stages:
               targetType: "inline"
               script: |
                 echo "Validating input parameters"
-                echo '${{ toJson(parameters.rings) }}'
+                ${{ each ring in parameters.rings }}:
+                  echo "Target Region: ${{ ring.targetRegion }}"
