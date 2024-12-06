@@ -92,6 +92,7 @@ stages:
         dependsOn: download_cache_torremo_library
         displayName: Validate Ring Values
         steps:
+          - checkout: none
           - ${{ each ring in parameters.rings }}:
               - script: |
                   validate_boolean() {

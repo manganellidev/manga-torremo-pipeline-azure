@@ -17,7 +17,7 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', ''),
-        ne('${{ parameters.skipPostDeployValidation }}', 'false')
+        eq('${{ parameters.skipPostDeployValidation }}', 'false')
       )
     displayName: 🩺 [${{ parameters.targetRegion }}] Post Deploy Validation
     pool:
