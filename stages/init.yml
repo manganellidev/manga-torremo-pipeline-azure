@@ -94,7 +94,7 @@ stages:
           - ${{ each ring in parameters.rings }}:
               - script: |
                   validate_boolean() {
-                    local value=$1
+                    local value=$(echo "$1" | tr '[:upper:]' '[:lower:]')
                     local field=$2
                     if [ "$value" != "true" ] && [ "$value" != "false" ]; then
                       echo -e "\033[31mError: Invalid $field value '$value'. Possible values: true, false\033[0m"
