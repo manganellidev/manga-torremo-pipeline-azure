@@ -20,10 +20,10 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         or(
           and(
-            contains('${{ parameters.dependsOnStages }}', 'stage_1'),
+            contains('${{ parameters.dependsOnStages }}', 'bake_time_${{ parameters.previousRegion }}'),
             eq(dependencies.stage_1.result, 'Succeeded')
           ),
-          not(contains('${{ parameters.dependsOnStages }}', 'stage_1'))
+          not(contains('${{ parameters.dependsOnStages }}', 'bake_time_${{ parameters.previousRegion }}'))
         ),
         ne('${{ parameters.targetRegion }}', ''),
         ne('${{ parameters.previousRegion }}', '')
