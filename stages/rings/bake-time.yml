@@ -17,6 +17,7 @@ stages:
     parameters:
       targetRegion: ${{ parameters.targetRegion }}
       bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
+      skipBakeTime: ${{ parameters.skipBakeTime }}
       dependsOnStages:
         - release_${{ parameters.targetRegion }}
         - post_deploy_validation_${{ parameters.targetRegion }}

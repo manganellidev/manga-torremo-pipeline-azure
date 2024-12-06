@@ -23,7 +23,7 @@ stages:
           eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Skipped')
         ),
         ne('${{ parameters.targetRegion }}', ''),
-        ne('${{ parameters.skipBakeTime }}', true)
+        eq('${{ parameters.skipBakeTime }}', false)
       )
     displayName: 🍰 [${{ parameters.targetRegion }}] Bake Time
     pool: server
