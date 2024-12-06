@@ -17,7 +17,7 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
-        ne('${{ parameters.dynatraceSmokeTestRing0 }}', 'false')
+        ne('${{ parameters.dynatraceSmokeTest }}', 'false')
       )
     displayName: 🩺 [${{ parameters.targetRegion }}] Deploy Validation
     pool:
