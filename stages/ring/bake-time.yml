@@ -13,7 +13,7 @@ parameters:
     default: false
 
 stages:
-  - ${{ if eq(parameters.skipPostDeployValidation, true) }}:
+  - ${{ if ne(parameters.skipPostDeployValidation, true) }}:
       - template: ../common/bake-time.yml
         parameters:
           targetRegion: ${{ parameters.targetRegion }}
