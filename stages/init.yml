@@ -93,8 +93,7 @@ stages:
         displayName: Validate Ring Values
         steps:
           - ${{ each ring in parameters.rings }}:
-              - displayName: "Validate Ring Values for ${{ ring.targetRegion }}"
-                script: |
+              - script: |
                   validate_boolean() {
                     local value=$(echo "$1" | tr '[:upper:]' '[:lower:]')
                     local field=$2
@@ -138,3 +137,4 @@ stages:
                   fi
 
                   echo -e "\033[32mRing values for ${{ ring.targetRegion }} region are valid\033[0m"
+                displayName: "Validating ring values for ${{ ring.targetRegion }}"
