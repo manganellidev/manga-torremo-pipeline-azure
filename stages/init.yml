@@ -87,11 +87,54 @@ stages:
 
                 echo "Download complete. Files saved to $(TORREMO_LIB_CACHE_FOLDER)"
 
-      - job: printRings
-        dependsOn: download_cache_torremo_library
-        displayName: Print Rings
+      - job: validate_ring_values
+        # dependsOn: download_cache_torremo_library
+        displayName: Validate Ring Values
         steps:
-          # REPLACE IT by GO CLI
           - ${{ each ring in parameters.rings }}:
               - script: |
-                  echo "Target Region: ${{ ring.targetRegion }}"
+                  validate_boolean() {
+                    local value=$1
+                    local field=$2
+                    if [ "$value" != "true" ] && [ "$value" != "false" ]; then
+                      echo -e "\033[31mError: Invalid $field value '$value'. Possible values: true, false\033[0m"
+                      exit 1
+                    fi
+                  }
+
+                  validate_region() {
+                    local value=$1
+                    local field=$2
+                    local valid_values=()
+
+                    if [ "$field" == "targetRegion" ]; then
+                      valid_values=("int" "eu" "us" "apj")
+                    elif [ "$field" == "previousRegion" ]; then
+                      valid_values=("none" "int" "eu" "us" "apj")
+                    else
+                      echo -e "\033[31mError: Unknown field '$field'\033[0m"
+                      exit 1
+                    fi
+
+                    # Check if the value is in the valid values array
+                    if [[ ! " ${valid_values[@]} " =~ " ${value} " ]]; then
+                      echo -e "\033[31mError: Invalid $field value '$value'. Possible values: ${valid_values[*]}\033[0m"
+                      exit 1
+                    fi
+                  }
+
+                  echo "Validating ring values for ${{ ring.targetRegion }}"
+
+                  validate_region "${{ ring.targetRegion }}" "targetRegion"
+                  validate_region "${{ ring.previousRegion }}" "previousRegion"
+
+                  validate_boolean "${{ ring.autoPromote }}" "autoPromote"
+                  validate_boolean "${{ ring.skipBakeTime }}" "skipBakeTime"
+                  validate_boolean "${{ ring.skipPostDeployValidation }}" "skipPostDeployValidation"
+
+                  if [ "${{ ring.bakeTimeInMinutes }}" -lt 0 ]; then
+                    echo -e "\033[31mError: bakeTimeInMinutes must be greater than or equal to 0\033[0m"
+                    exit 1
+                  fi
+
+                  echo -e "\033[32mRing values for ${{ ring.targetRegion }} are valid\033[0m"
