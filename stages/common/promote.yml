@@ -19,7 +19,7 @@ stages:
       and(
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         or(
-          not(contains(parameters.dependsOnStages, parameters.dependsOnStages[1])),
+          contains(parameters.dependsOnStages, parameters.dependsOnStages[1]),
           eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded')
         )
         ne('${{ parameters.targetRegion }}', ''),
