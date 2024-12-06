@@ -93,8 +93,8 @@ stages:
         displayName: Validate Ring Values
         steps:
           - ${{ each ring in parameters.rings }}:
-              - displayName: "Validate Ring Values for ${{ ring.targetRegion }}"
-                task: Bash@3
+              - task: Bash@3
+                displayName: "Validate Ring Values for ${{ ring.targetRegion }}"
                 inputs:
                   targetType: "inline"
                 script: |
