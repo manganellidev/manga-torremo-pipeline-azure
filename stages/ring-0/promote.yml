@@ -8,11 +8,14 @@ parameters:
   - name: skipStage
     type: boolean
     default: false
+  - name: previousRegion
+    type: string
+    default: "none"
 
 stages:
   - template: ../common/promote.yml
     parameters:
-      previousRegion: "none"
+      previousRegion: ${{ parameters.previousRegion }}
       targetRegion: ${{ parameters.targetRegion }}
       autoPromote: ${{ parameters.autoPromote }}
       skipStage: ${{ parameters.skipStage }}
