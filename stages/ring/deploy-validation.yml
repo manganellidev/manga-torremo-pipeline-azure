@@ -1,0 +1,16 @@
+parameters:
+  - name: targetRegion
+    type: string
+    default: ""
+  - name: dynatraceSmokeTest
+    type: boolean
+    default: false
+
+stages:
+  - template: ../common/deploy-validation.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegion }}
+      dynatraceSmokeTest: ${{ parameters.dynatraceSmokeTest }}
+      dependsOnStages:
+        - init
+        - release_${{ parameters.targetRegion }}
