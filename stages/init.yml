@@ -91,6 +91,6 @@ stages:
         displayName: Print Rings
         steps:
           # REPLACE IT by GO CLI
-          ${{ each ring in parameters.rings }}:
-            - script: |
-                echo "Target Region: ${{ ring.targetRegion }}"
+          - ${{ each ring in parameters.rings }}:
+              - script: |
+                  echo "Target Region: ${{ ring.targetRegion }}"
