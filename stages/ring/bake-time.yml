@@ -10,7 +10,7 @@ parameters:
     default: false
 
 stages:
-  - ${{ if eq(parameters.dynatraceSmokeTest, true }}:
+  - ${{ if eq(parameters.dynatraceSmokeTest, 'true' }}:
       - template: ../common/bake-time.yml
         parameters:
           targetRegion: ${{ parameters.targetRegion }}
