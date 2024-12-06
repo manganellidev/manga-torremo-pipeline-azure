@@ -18,7 +18,7 @@ stages:
           autoPromote: ${{ parameters.autoPromote }}
           dependsOnStages:
             - init
-            - init # workaround to simulate a bake time stage that does not exist
+            - init # Workaround to simulate a bake time stage that does not exist for ring 0
   - ${{ else }}:
       - template: ../common/promote.yml
         parameters:
