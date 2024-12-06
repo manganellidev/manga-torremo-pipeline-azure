@@ -30,22 +30,22 @@ stages:
 
   - ${{ each ring in parameters.rings }}:
       # promote
-      - template: /stages/ring/promote.yml
+      - template: /stages/rings/promote.yml
         parameters:
           targetRegion: ${{ ring.targetRegion }}
           previousRegion: ${{ ring.previousRegion }}
           autoPromote: ${{ ring.autoPromote }}
       # release
-      - template: /stages/ring/release.yml
+      - template: /stages/rings/release.yml
         parameters:
           targetRegion: ${{ ring.targetRegion }}
       # post deploy validation
-      - template: /stages/ring/post-deploy-validation.yml
+      - template: /stages/rings/post-deploy-validation.yml
         parameters:
           targetRegion: ${{ ring.targetRegion }}
           skipPostDeployValidation: ${{ ring.skipPostDeployValidation }}
       # bake time
-      - template: /stages/ring/bake-time.yml
+      - template: /stages/rings/bake-time.yml
         parameters:
           targetRegion: ${{ ring.targetRegion }}
           bakeTimeInMinutes: ${{ ring.bakeTimeInMinutes }}
