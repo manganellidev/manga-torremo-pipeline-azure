@@ -49,6 +49,7 @@ stages:
                 --githubGitOpsRepoUrl $(GH_GITOPS_REPO_URL)
 
       - job: argo_application_health_check
+        dependsOn: gitops_deploy
         displayName: "Argo Application Health Check"
         variables:
           TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
