@@ -35,25 +35,25 @@ extends:
       - targetRegion: "int"              # Required: check available regions
         previousRegion: "none"           # Required: none or previous region
         autoPromote: true                # Optional: default false
-        bakeTimeInMinutes: 1             # Optional: default 1
+        bakeTimeInMinutes: 1440          # Optional: default 1 minute
         skipBakeTime: false              # Optional: default false
         skipPostDeployValidation: false  # Optional: default false
       - targetRegion: "eu"
         previousRegion: "int"
         autoPromote: true
-        bakeTimeInMinutes: 1
+        bakeTimeInMinutes: 1440
         skipBakeTime: false
         skipPostDeployValidation: false
       - targetRegion: "us"
         previousRegion: "eu"
         autoPromote: true
-        bakeTimeInMinutes: 1
+        bakeTimeInMinutes: 1440
         skipBakeTime: false
         skipPostDeployValidation: false
       - targetRegion: "apj"
         previousRegion: "us"
         autoPromote: true
-        bakeTimeInMinutes: 1
+        bakeTimeInMinutes: 1440
         skipBakeTime: true
         skipPostDeployValidation: false
 ```
