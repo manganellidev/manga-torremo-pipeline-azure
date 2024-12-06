@@ -89,7 +89,7 @@ stages:
 
       # TODO: replace it by torremo task
       - job: validate_ring_values
-        # dependsOn: download_cache_torremo_library
+        dependsOn: download_cache_torremo_library
         displayName: Validate Ring Values
         steps:
           - ${{ each ring in parameters.rings }}:
