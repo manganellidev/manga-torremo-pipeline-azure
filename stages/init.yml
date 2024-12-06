@@ -124,7 +124,7 @@ stages:
                     fi
                   }
 
-                  echo "\n Validating ring values for ${{ ring.targetRegion }} region"
+                  echo "Validating ring values for ${{ ring.targetRegion }} region"
 
                   validate_region "${{ ring.targetRegion }}" "targetRegion"
                   validate_region "${{ ring.previousRegion }}" "previousRegion"
