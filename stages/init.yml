@@ -1,3 +1,8 @@
+parameters:
+  - name: rings
+    type: object
+    default: []
+
 stages:
   - stage: init
     displayName: ⚙️ Initializing
@@ -81,3 +86,14 @@ stages:
                   --clobber
 
                 echo "Download complete. Files saved to $(TORREMO_LIB_CACHE_FOLDER)"
+
+          # REPLACE IT by GO CLI
+          - task: Bash@3
+            displayName: "Validate Input Parameters"
+            inputs:
+              targetType: "inline"
+              script: |
+                if [ -z "$(rings)" ]; then
+                  echo "Error: No rings defined. Please provide at least one ring."
+                  exit 1
+                fi
