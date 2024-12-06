@@ -93,10 +93,7 @@ stages:
         displayName: Validate Ring Values
         steps:
           - ${{ each ring in parameters.rings }}:
-              - task: Bash@3
-                displayName: "Validate Ring Values for ${{ ring.targetRegion }}"
-                inputs:
-                  targetType: "inline"
+              - displayName: "Validate Ring Values for ${{ ring.targetRegion }}"
                 script: |
                   validate_boolean() {
                     local value=$(echo "$1" | tr '[:upper:]' '[:lower:]')
