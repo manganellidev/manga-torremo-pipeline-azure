@@ -29,21 +29,25 @@ stages:
       rings: ${{ parameters.rings }}
 
   - ${{ each ring in parameters.rings }}:
+      # promote
       - template: /stages/ring/promote.yml
         parameters:
-          skipStage: ${{ ring.skip }}
-          autoPromote: ${{ ring.autoPromote }}
           targetRegion: ${{ ring.targetRegion }}
           previousRegion: ${{ ring.previousRegion }}
+          autoPromote: ${{ ring.autoPromote }}
+      # release
       - template: /stages/ring/release.yml
         parameters:
           targetRegion: ${{ ring.targetRegion }}
-      - template: /stages/ring/deploy-validation.yml
+      # post deploy validation
+      - template: /stages/ring/post-deploy-validation.yml
         parameters:
-          dynatraceSmokeTest: ${{ ring.dynatraceSmokeTest }}
           targetRegion: ${{ ring.targetRegion }}
+          skipPostDeployValidation: ${{ ring.skipPostDeployValidation }}
+      # bake time
       - template: /stages/ring/bake-time.yml
         parameters:
-          bakeTimeInMinutes: ${{ ring.bakeTimeInMinutes }}
-          dynatraceSmokeTest: ${{ ring.dynatraceSmokeTest }}
           targetRegion: ${{ ring.targetRegion }}
+          bakeTimeInMinutes: ${{ ring.bakeTimeInMinutes }}
+          skipBakeTime: ${{ ring.skipBakeTime }}
+          skipPostDeployValidation: ${{ ring.skipPostDeployValidation }}

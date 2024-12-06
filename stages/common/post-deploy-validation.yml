@@ -2,7 +2,7 @@ parameters:
   - name: targetRegion
     type: string
     default: ""
-  - name: dynatraceSmokeTest
+  - name: skipPostDeployValidation
     type: boolean
     default: false
   - name: dependsOnStages
@@ -10,14 +10,14 @@ parameters:
     default: []
 
 stages:
-  - stage: deploy_validation_${{ parameters.targetRegion }}
+  - stage: post_deploy_validation_${{ parameters.targetRegion }}
     dependsOn: ${{ parameters.dependsOnStages }}
     condition: |
       and(
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', ''),
-        ne('${{ parameters.dynatraceSmokeTest }}', 'false')
+        ne('${{ parameters.skipPostDeployValidation }}', 'false')
       )
     displayName: 🩺 [${{ parameters.targetRegion }}] Deploy Validation
     pool:

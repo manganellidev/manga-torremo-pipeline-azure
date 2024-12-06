@@ -8,9 +8,6 @@ parameters:
   - name: autoPromote
     type: boolean
     default: false
-  - name: skipStage
-    type: boolean
-    default: false
 
 stages:
   - ${{ if eq(parameters.previousRegion, 'none') }}:
@@ -19,7 +16,6 @@ stages:
           previousRegion: ${{ parameters.previousRegion }}
           targetRegion: ${{ parameters.targetRegion }}
           autoPromote: ${{ parameters.autoPromote }}
-          skipStage: ${{ parameters.skipStage }}
           dependsOnStages:
             - init
   - ${{ else }}:
@@ -28,7 +24,6 @@ stages:
           previousRegion: ${{ parameters.previousRegion }}
           targetRegion: ${{ parameters.targetRegion }}
           autoPromote: ${{ parameters.autoPromote }}
-          skipStage: ${{ parameters.skipStage }}
           dependsOnStages:
             - init
             - bake_time_${{ parameters.previousRegion }}

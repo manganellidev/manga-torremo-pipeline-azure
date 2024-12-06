@@ -2,15 +2,15 @@ parameters:
   - name: targetRegion
     type: string
     default: ""
-  - name: dynatraceSmokeTest
+  - name: skipPostDeployValidation
     type: boolean
     default: false
 
 stages:
-  - template: ../common/deploy-validation.yml
+  - template: ../common/post-deploy-validation.yml
     parameters:
       targetRegion: ${{ parameters.targetRegion }}
-      dynatraceSmokeTest: ${{ parameters.dynatraceSmokeTest }}
+      skipPostDeployValidation: ${{ parameters.skipPostDeployValidation }}
       dependsOnStages:
         - init
         - release_${{ parameters.targetRegion }}

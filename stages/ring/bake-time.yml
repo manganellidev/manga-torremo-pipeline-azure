@@ -5,19 +5,19 @@ parameters:
   - name: bakeTimeInMinutes
     type: number
     default: 0
-  - name: dynatraceSmokeTest
+  - name: skipPostDeployValidation
     type: boolean
     default: false
 
 stages:
-  - ${{ if eq(parameters.dynatraceSmokeTest, true) }}:
+  - ${{ if eq(parameters.skipPostDeployValidation, true) }}:
       - template: ../common/bake-time.yml
         parameters:
           targetRegion: ${{ parameters.targetRegion }}
           bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
           dependsOnStages:
             - release_${{ parameters.targetRegion }}
-            - deploy_validation_${{ parameters.targetRegion }}
+            - post_deploy_validation_${{ parameters.targetRegion }}
   - ${{ else }}:
       - template: ../common/bake-time.yml
         parameters:

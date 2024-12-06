@@ -13,4 +13,4 @@ stages:
       bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
       dependsOnStages:
         - release_${{ parameters.targetRegion }}
-        - deploy_validation_${{ parameters.targetRegion }}
+        - post_deploy_validation_${{ parameters.targetRegion }}
