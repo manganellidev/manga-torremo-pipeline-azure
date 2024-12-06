@@ -1,7 +1,4 @@
 parameters:
-  - name: skipStage
-    type: boolean
-    default: false
   - name: targetRegion
     type: string
     default: ""
@@ -20,7 +17,8 @@ stages:
     dependsOn: ${{ parameters.dependsOnStages }}
     condition: |
       and(
-        eq('${{ parameters.skipStage }}', 'false'),
+        eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
+        eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', ''),
         ne('${{ parameters.previousRegion }}', '')
       )
