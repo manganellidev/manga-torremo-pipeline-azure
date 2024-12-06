@@ -12,6 +12,9 @@ parameters:
     type: object
     default: []
 
+variables:
+  dependsOnBakeTime: ${{ parameters.dependsOnStages[1] }}
+
 stages:
   - stage: promote_${{ parameters.targetRegion }}
     dependsOn: ${{ parameters.dependsOnStages }}
@@ -19,8 +22,8 @@ stages:
       and(
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         or(
-          contains(parameters.dependsOnStages, parameters.dependsOnStages[1]),
-          eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded')
+          not(contains('${{ variables.dependsOnBakeTime }}', '')),
+          eq(dependencies.${{ variables.dependsOnBakeTime }}.result, 'Succeeded')
         )
         ne('${{ parameters.targetRegion }}', ''),
         ne('${{ parameters.previousRegion }}', '')
