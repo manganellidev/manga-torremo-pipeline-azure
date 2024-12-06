@@ -22,9 +22,12 @@ stages:
       and(
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         or(
-          not(contains('${{ variables.dependsOnBakeTime }}', '')),
-          eq(dependencies.${{ variables.dependsOnBakeTime }}.result, 'Succeeded')
-        )
+          and(
+            length(parameters.dependsOnStages) > 1,
+            eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded')
+          ),
+          length(parameters.dependsOnStages) <= 1
+        ),
         ne('${{ parameters.targetRegion }}', ''),
         ne('${{ parameters.previousRegion }}', '')
       )
