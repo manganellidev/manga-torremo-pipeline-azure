@@ -11,28 +11,28 @@ parameters:
   - name: rings
     type: object
     default:
-      - name: "ring-0"
+      - name: "ring_0"
         skip: false
         autoPromote: false
         dynatraceSmokeTest: false
         targetRegion: ""
         previousRegion: ""
         bakeTimeInMinutes: 0
-      - name: "ring-1"
+      - name: "ring_1"
         skip: true
         autoPromote: false
         dynatraceSmokeTest: false
         targetRegion: ""
         previousRegion: ""
         bakeTimeInMinutes: 0
-      - name: "ring-2"
+      - name: "ring_2"
         skip: true
         autoPromote: false
         dynatraceSmokeTest: false
         targetRegion: ""
         previousRegion: ""
         bakeTimeInMinutes: 0
-      - name: "ring-3"
+      - name: "ring_3"
         skip: true
         autoPromote: false
         dynatraceSmokeTest: false
@@ -55,7 +55,7 @@ stages:
   - template: /stages/init.yml
 
   - ${{ each ring in parameters.rings }}:
-      - template: /stages/${{ ring.name }}/promote.yml
+      - template: /stages/ring/promote.yml
         parameters:
           skipStage: ${{ ring.skip }}
           autoPromote: ${{ ring.autoPromote }}
