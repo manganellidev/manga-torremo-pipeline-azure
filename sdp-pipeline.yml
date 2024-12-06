@@ -11,9 +11,6 @@ parameters:
   - name: rings
     type: object
     default: []
-  # - name: originBranch   <<<<<<<< if needed: RETRIEVE it from env var and add to variables refer to GH_APP_REPO_URL
-  #   type: string
-  #   default: ""
 
 variables:
   TORREMO_LIB_CACHE_FOLDER: $(Pipeline.Workspace)/s/torremo-lib-cache
