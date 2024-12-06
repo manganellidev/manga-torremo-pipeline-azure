@@ -10,35 +10,35 @@ parameters:
     default: ""
   - name: rings
     type: object
-    default:
-      - name: "ring_0"
-        skip: false
-        autoPromote: false
-        dynatraceSmokeTest: false
-        targetRegion: ""
-        previousRegion: ""
-        bakeTimeInMinutes: 0
-      - name: "ring_1"
-        skip: true
-        autoPromote: false
-        dynatraceSmokeTest: false
-        targetRegion: ""
-        previousRegion: ""
-        bakeTimeInMinutes: 0
-      - name: "ring_2"
-        skip: true
-        autoPromote: false
-        dynatraceSmokeTest: false
-        targetRegion: ""
-        previousRegion: ""
-        bakeTimeInMinutes: 0
-      - name: "ring_3"
-        skip: true
-        autoPromote: false
-        dynatraceSmokeTest: false
-        targetRegion: ""
-        previousRegion: ""
-        bakeTimeInMinutes: 0
+    # default:
+    # - name: "ring_0"
+    #   skip: false
+    #   autoPromote: false
+    #   dynatraceSmokeTest: false
+    #   targetRegion: ""
+    #   previousRegion: ""
+    #   bakeTimeInMinutes: 0
+    # - name: "ring_1"
+    #   skip: true
+    #   autoPromote: false
+    #   dynatraceSmokeTest: false
+    #   targetRegion: ""
+    #   previousRegion: ""
+    #   bakeTimeInMinutes: 0
+    # - name: "ring_2"
+    #   skip: true
+    #   autoPromote: false
+    #   dynatraceSmokeTest: false
+    #   targetRegion: ""
+    #   previousRegion: ""
+    #   bakeTimeInMinutes: 0
+    # - name: "ring_3"
+    #   skip: true
+    #   autoPromote: false
+    #   dynatraceSmokeTest: false
+    #   targetRegion: ""
+    #   previousRegion: ""
+    #   bakeTimeInMinutes: 0
   # - name: originBranch   <<<<<<<< if needed: RETRIEVE it from env var and add to variables refer to GH_APP_REPO_URL
   #   type: string
   #   default: ""
