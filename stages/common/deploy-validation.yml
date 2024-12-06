@@ -2,6 +2,9 @@ parameters:
   - name: targetRegion
     type: string
     default: ""
+  - name: dynatraceSmokeTest
+    type: boolean
+    default: false
   - name: dependsOnStages
     type: object
     default: []
@@ -14,29 +17,13 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
+        ne('${{ parameters.dynatraceSmokeTestRing0 }}', 'false')
       )
     displayName: 🩺 [${{ parameters.targetRegion }}] Deploy Validation
     pool:
       name: "Azure Pipelines"
       vmImage: "ubuntu-latest"
     jobs:
-      - job: argo_application_health_check
-        displayName: "Argo Application Health Check"
-        variables:
-          TORREMO_LIB_LATEST_VERSION: $[ stageDependencies.init.download_cache_torremo_library.outputs['fetch_latest_release_tag.LATEST_VERSION'] ]
-        steps:
-          - checkout: none
-          - task: Cache@2
-            displayName: "Cache Torremo Library"
-            inputs:
-              key: '"torremo" | "$(Agent.OS)" | "$(TORREMO_LIB_LATEST_VERSION)"'
-              path: "$(TORREMO_LIB_CACHE_FOLDER)/"
-
-          - task: torremo-beta@1
-            displayName: Deploy Validation
-            inputs:
-              stepName: "deployValidation"
-
       - job: dynatrace_synthetic_monitor_smoke_test
         displayName: "Dynatrace Synthetic Monitor Smoke Test"
         dependsOn: argo_application_health_check

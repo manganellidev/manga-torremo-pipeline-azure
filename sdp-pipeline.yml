@@ -14,6 +14,9 @@ parameters:
   - name: autoPromoteRing0
     type: boolean
     default: false
+  - name: dynatraceSmokeTestRing0
+    type: boolean
+    default: false
   - name: targetRegionRing0
     type: string
     default: ""
@@ -24,6 +27,9 @@ parameters:
     type: boolean
     default: false
   - name: autoPromoteRing1
+    type: boolean
+    default: false
+  - name: dynatraceSmokeTestRing1
     type: boolean
     default: false
   - name: targetRegionRing1
@@ -38,6 +44,9 @@ parameters:
   - name: autoPromoteRing2
     type: boolean
     default: false
+  - name: dynatraceSmokeTestRing2
+    type: boolean
+    default: false
   - name: targetRegionRing2
     type: string
     default: ""
@@ -48,6 +57,9 @@ parameters:
     type: boolean
     default: false
   - name: autoPromoteRing3
+    type: boolean
+    default: false
+  - name: dynatraceSmokeTestRing3
     type: boolean
     default: false
   - name: targetRegionRing3
@@ -69,6 +81,7 @@ variables:
   GH_GITOPS_REPO_URL: "https://github.tools.sap/concur-sap-ecosystem/workloads"
 
 stages:
+  # Init
   - template: /stages/init.yml
   # Ring 0
   - template: /stages/ring-0/promote.yml
@@ -81,6 +94,7 @@ stages:
       targetRegion: ${{ parameters.targetRegionRing0 }}
   - template: /stages/ring-0/deploy-validation.yml
     parameters:
+      dynatraceSmokeTest: ${{ parameters.dynatraceSmokeTestRing0 }}
       targetRegion: ${{ parameters.targetRegionRing0 }}
   - template: /stages/ring-0/bake-time.yml
     parameters:
@@ -98,6 +112,7 @@ stages:
       targetRegion: ${{ parameters.targetRegionRing1 }}
   - template: /stages/ring-1/deploy-validation.yml
     parameters:
+      dynatraceSmokeTest: ${{ parameters.dynatraceSmokeTestRing1 }}
       targetRegion: ${{ parameters.targetRegionRing1 }}
   - template: /stages/ring-1/bake-time.yml
     parameters:
@@ -115,6 +130,7 @@ stages:
       targetRegion: ${{ parameters.targetRegionRing2 }}
   - template: /stages/ring-2/deploy-validation.yml
     parameters:
+      dynatraceSmokeTest: ${{ parameters.dynatraceSmokeTestRing2 }}
       targetRegion: ${{ parameters.targetRegionRing2 }}
   - template: /stages/ring-2/bake-time.yml
     parameters:
@@ -132,4 +148,5 @@ stages:
       targetRegion: ${{ parameters.targetRegionRing3 }}
   - template: /stages/ring-3/deploy-validation.yml
     parameters:
+      dynatraceSmokeTest: ${{ parameters.dynatraceSmokeTestRing3 }}
       targetRegion: ${{ parameters.targetRegionRing3 }}
