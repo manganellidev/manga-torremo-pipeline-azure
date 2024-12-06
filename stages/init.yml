@@ -34,8 +34,8 @@ stages:
                 fi
 
       - job: download_cache_torremo_library
-        displayName: "Download and Cache Torremo Library Binary"
         dependsOn: validate_pipeline_variables
+        displayName: "Download and Cache Torremo Library Binary"
         steps:
           - checkout: none
           - task: Bash@3
@@ -88,6 +88,7 @@ stages:
                 echo "Download complete. Files saved to $(TORREMO_LIB_CACHE_FOLDER)"
 
       - job: printRings
+        dependsOn: download_cache_torremo_library
         displayName: Print Rings
         steps:
           # REPLACE IT by GO CLI
