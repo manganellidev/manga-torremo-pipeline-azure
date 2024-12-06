@@ -21,7 +21,7 @@ stages:
         or(
           and(
             contains('${{ parameters.dependsOnStages }}', 'bake_time_${{ parameters.previousRegion }}'),
-            eq(dependencies.stage_1.result, 'Succeeded')
+            eq(dependencies.dependsOnStages[1].result, 'Succeeded')
           ),
           not(contains('${{ parameters.dependsOnStages }}', 'bake_time_${{ parameters.previousRegion }}'))
         ),
