@@ -20,7 +20,7 @@ stages:
           bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
           dependsOnStages:
             - release_${{ parameters.targetRegion }}
-            - release_${{ parameters.targetRegion }} # Workaround to simulate a post deploy validation stage that does not exist
+            - release_${{ parameters.targetRegion }} # Workaround to simulate the skipped post deploy validation stage
   - ${{ else }}:
       - template: ../common/bake-time.yml
         parameters:
