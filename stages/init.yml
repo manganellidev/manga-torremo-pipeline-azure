@@ -87,12 +87,10 @@ stages:
 
                 echo "Download complete. Files saved to $(TORREMO_LIB_CACHE_FOLDER)"
 
+      - job: printRings
+        displayName: Print Rings
+        steps:
           # REPLACE IT by GO CLI
-          - task: Bash@3
-            displayName: "Validate Input Parameters"
-            inputs:
-              targetType: "inline"
-              script: |
-                echo "Validating input parameters"
-                ${{ each ring in parameters.rings }}:
-                  echo "Target Region: ${{ ring.targetRegion }}"
+          ${{ each ring in parameters.rings }}:
+            - script: |
+                echo "Target Region: ${{ ring.targetRegion }}"
