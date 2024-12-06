@@ -5,6 +5,9 @@ parameters:
   - name: bakeTimeInMinutes
     type: number
     default: 0
+  - name: skipBakeTime
+    type: boolean
+    default: false
   - name: dependsOnStages
     type: object
     default: []
@@ -17,6 +20,7 @@ stages:
         eq(dependencies.${{ parameters.dependsOnStages[0] }}.result, 'Succeeded'),
         eq(dependencies.${{ parameters.dependsOnStages[1] }}.result, 'Succeeded'),
         ne('${{ parameters.targetRegion }}', '')
+        ne('${{ parameters.skipBakeTime }}', true)
       )
     displayName: 🍰 [${{ parameters.targetRegion }}] Bake Time
     pool: server

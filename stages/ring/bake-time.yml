@@ -5,6 +5,9 @@ parameters:
   - name: bakeTimeInMinutes
     type: number
     default: 0
+  - name: skipBakeTime
+    type: boolean
+    default: false
   - name: skipPostDeployValidation
     type: boolean
     default: false
