@@ -13,19 +13,10 @@ parameters:
     default: false
 
 stages:
-  - ${{ if eq(parameters.skipPostDeployValidation, true) }}:
-      - template: ../shared/bake-time.yml
-        parameters:
-          targetRegion: ${{ parameters.targetRegion }}
-          bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
-          dependsOnStages:
-            - release_${{ parameters.targetRegion }}
-            - release_${{ parameters.targetRegion }} # Workaround to simulate the skipped post deploy validation stage
-  - ${{ else }}:
-      - template: ../shared/bake-time.yml
-        parameters:
-          targetRegion: ${{ parameters.targetRegion }}
-          bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
-          dependsOnStages:
-            - release_${{ parameters.targetRegion }}
-            - post_deploy_validation_${{ parameters.targetRegion }}
+  - template: ../shared/bake-time.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegion }}
+      bakeTimeInMinutes: ${{ parameters.bakeTimeInMinutes }}
+      dependsOnStages:
+        - release_${{ parameters.targetRegion }}
+        - post_deploy_validation_${{ parameters.targetRegion }}

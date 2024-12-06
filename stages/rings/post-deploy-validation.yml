@@ -7,11 +7,10 @@ parameters:
     default: false
 
 stages:
-  - ${{ if eq(parameters.skipPostDeployValidation, false) }}:
-      - template: ../shared/post-deploy-validation.yml
-        parameters:
-          targetRegion: ${{ parameters.targetRegion }}
-          skipPostDeployValidation: ${{ parameters.skipPostDeployValidation }}
-          dependsOnStages:
-            - init
-            - release_${{ parameters.targetRegion }}
+  - template: ../shared/post-deploy-validation.yml
+    parameters:
+      targetRegion: ${{ parameters.targetRegion }}
+      skipPostDeployValidation: ${{ parameters.skipPostDeployValidation }}
+      dependsOnStages:
+        - init
+        - release_${{ parameters.targetRegion }}
